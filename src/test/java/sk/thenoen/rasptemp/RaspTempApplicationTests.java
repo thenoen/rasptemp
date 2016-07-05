@@ -2,6 +2,8 @@ package sk.thenoen.rasptemp;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -12,6 +14,8 @@ import java.io.IOException;
 @SpringApplicationConfiguration(classes = RaspTempApplication.class)
 public class RaspTempApplicationTests {
 
+	private static final Logger log = LoggerFactory.getLogger(RaspTempApplicationTests.class);
+
 	@Test
 	public void contextLoads() {
 	}
@@ -19,7 +23,7 @@ public class RaspTempApplicationTests {
 	@Test
 	public void filesystemAccess() throws IOException {
 		File file = new File(".");
-		System.out.println(file.getCanonicalPath());
+		log.info(file.getCanonicalPath());
 	}
 
 }
