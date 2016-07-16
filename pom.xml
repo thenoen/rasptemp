@@ -94,8 +94,8 @@
 							<goal>install-node-and-npm</goal>
 						</goals>
 						<configuration>
-							<nodeVersion>v0.12.4</nodeVersion>
-							<npmVersion>2.13.0</npmVersion>
+							<nodeVersion>v6.3.0</nodeVersion>
+							<npmVersion>3.10.5</npmVersion>
 						</configuration>
 					</execution>
 					<execution>
@@ -117,8 +117,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<installDirectory>target/node-installation-dir</installDirectory>
-					<workingDirectory>src/main/frontend</workingDirectory>
+					<installDirectory>node-installation-dir</installDirectory>
+					<workingDirectory>src/main/frontend/js/app</workingDirectory>
 					<skip>${frontend.skip}</skip>
 				</configuration>
 			</plugin>
@@ -135,25 +135,30 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.basedir}/src/main/webapp/js</outputDirectory>
+							<outputDirectory>${project.basedir}/src/main/resources/static/js/node_modules</outputDirectory>
 							<resources>
 								<resource>
-									<directory>src/main/frontend/node_modules</directory>
-									<includes>
-										<include>angular2/bundles/angular2-polyfills.min.js</include>
-										<include>angular2/bundles/angular2.min.js</include>
-										<include>angular2/bundles/angular2.js</include> <!-- todo: rmove -->
-										<include>angular2/bundles/http.min.js</include>
-										<include>angular2/bundles/router.min.js</include>
-										<include>angular2/bundles/upgrade.min.js</include>
-										<include>rxjs/bundles/Rx.min.js</include>
-										<include>systemjs/dist/system.js</include>
+									<directory>src/main/frontend/js/app/node_modules</directory>
+									<!--<includes>-->
+										<!--<include>angular2/bundles/angular2-polyfills.min.js</include>-->
+										<!--<include>angular2/bundles/angular2.min.js</include>-->
+										<!--<include>angular2/bundles/angular2.js</include> &lt;!&ndash; todo: rmove &ndash;&gt;-->
+										<!--<include>angular2/bundles/http.min.js</include>-->
+										<!--<include>angular2/bundles/router.min.js</include>-->
+										<!--<include>angular2/bundles/upgrade.min.js</include>-->
+										<!--<include>rxjs/bundles/Rx.min.js</include>-->
+										<!--<include>systemjs/dist/system.js</include>-->
 										<!-- TODO: filter more these 2
 										<include>es6-promise/**/*.js</include>
 										<include>es6-shim/**/*.js</include>
 										 -->
-									</includes>
+									<!--</includes>-->
 								</resource>
+								<!--<resources>-->
+									<!--<resource>-->
+										<!--<directory>src/main/resources/static</directory>-->
+									<!--</resource>-->
+								<!--</resources>-->
 							</resources>
 						</configuration>
 					</execution>
@@ -164,7 +169,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.basedir}/src/main/webapp/js/app</outputDirectory>
+							<outputDirectory>${project.basedir}/src/main/resources/static/js/app</outputDirectory>
 							<resources>
 								<resource>
 									<directory>src/main/frontend/js/app/build/js</directory>
