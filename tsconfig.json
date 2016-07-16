@@ -14,6 +14,6 @@
     "outDir": "src/main/resources/static"
   },
   "exclude": [
-    "node_modules"
+    "node_modules", "src/main/resources/static"
   ]
 }

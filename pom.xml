@@ -85,6 +85,7 @@
 						  <directory>src/main/frontend/node_modules</directory>
 						</fileset>
 						-->
+
 					</filesets>
 				</configuration>
 			</plugin>
@@ -147,10 +148,10 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.basedir}/src/main/resources/static/js/node_modules</outputDirectory>
+							<outputDirectory>${project.basedir}/src/main/resources/static/node_modules</outputDirectory>
 							<resources>
 								<resource>
-									<directory>src/main/frontend/js/app/node_modules</directory>
+									<directory>node_modules</directory>
 								</resource>
 							</resources>
 						</configuration>
