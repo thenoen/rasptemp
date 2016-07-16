@@ -7,4 +7,6 @@ node_tmp
 build
 src/main/frontend/node_modules/
 src/main/webapp/js
+node
+node_modules
 
