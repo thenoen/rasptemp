@@ -1,15 +1,17 @@
 {
+  "buildOnSave": false,
+  "compileOnSave": false,
   "compilerOptions": {
-    "target": "ES5",
-    "module": "system",
+    "target": "es5",
+    "module": "commonjs",
     "moduleResolution": "node",
-    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "sourceMap": true,
     "removeComments": false,
+    "noEmitHelpers": true,
     "noImplicitAny": false,
-    "outDir": "../webapp/js/app",
-    "rootDir": "js/app"
+    "outDir": "src/main/resources/static"
   },
   "exclude": [
     "node_modules"
