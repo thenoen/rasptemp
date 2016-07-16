@@ -7,10 +7,11 @@
     '@angular':                   'node_modules/@angular'
   };
 
-  // packages tells the System loader how to load when no filename and/or no extension
-  var packages = {
-    'rxjs': { defaultExtension: 'js' }
-  };
+    // packages tells the System loader how to load when no filename and/or no extension
+    var packages = {
+        '': {defaultExtension: 'js'},
+        'rxjs': {defaultExtension: 'js'}
+    };
 
   var packageNames = [
     '@angular/common',

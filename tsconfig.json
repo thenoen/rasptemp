@@ -9,7 +9,6 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "removeComments": false,
-    "noEmitHelpers": true,
     "noImplicitAny": false,
     "outDir": "src/main/resources/static"
   },
