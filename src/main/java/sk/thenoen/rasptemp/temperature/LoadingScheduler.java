@@ -18,8 +18,8 @@ public class LoadingScheduler {
 	@Autowired
 	private TemperatureRecordLoadingService temperatureRecordLoadingService;
 
-	@Scheduled(fixedRate = 5000)
-	public void reportCurrentTime() {
+	@Scheduled(fixedRate = 60000)
+	public void loadMeasurementsFromFile() {
 
 		log.info("loading records from file {}", inputFilePath);
 		temperatureRecordLoadingService.loadRecordsFromFile(inputFilePath);
