@@ -2,11 +2,4 @@
 **/*.idea
 **/target/**
 
-npm-debug.log
-node_tmp
-build
-src/main/frontend/node_modules/
-src/main/webapp/js
-node
-node_modules
-
+server/src/main/resources/static/**
