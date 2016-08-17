@@ -32,7 +32,6 @@
 		<maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
 		<spring-cloud-starter-parent.version>Brixton.RELEASE</spring-cloud-starter-parent.version>
 		<platform-bom.version>2.0.5.RELEASE</platform-bom.version>
-		<spring-boot.version>1.4.0.RELEASE</spring-boot.version>
 		<jackson.version>2.8.1</jackson.version>
 	</properties>
 
@@ -72,7 +71,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-test-autoconfigure</artifactId>
-			<version>${spring-boot.version}</version>
 		</dependency>
 
 		<dependency>
