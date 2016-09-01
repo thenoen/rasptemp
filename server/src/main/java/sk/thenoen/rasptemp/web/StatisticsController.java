@@ -28,11 +28,15 @@ public class StatisticsController {
 	@RequestMapping("/")
 	public String index() {
 
+		long start =  System.currentTimeMillis();
 		temperatureRecordLoadingService.loadRecordsFromFile(inputFilePath);
+		long end =  System.currentTimeMillis();
+
 
 		String response = "Greetings from Spring Boot!";
 
 		response += " - nr of records: " + temperatureRecordRepository.findAll().size();
+		response += " (loaded in " + ((end - start)/1000.0) +" s)";
 
 		return response;
 	}

@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import sk.thenoen.rasptemp.RaspTempApplication;
 import sk.thenoen.rasptemp.domain.TemperatureRecord;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = RaspTempApplication.class)
+@TestPropertySource(locations="classpath:test.properties")
 @Transactional
 public class TemperatureRecordLoadingServiceTest {
 
@@ -34,7 +36,7 @@ public class TemperatureRecordLoadingServiceTest {
 
 		List<TemperatureRecord> temperatureRecords = temperatureRecordRepository.findAll();
 
-		Assert.assertEquals(4, temperatureRecords.size());
+		Assert.assertEquals(16, temperatureRecords.size());
 	}
 
 }

@@ -30,3 +30,99 @@ precision: 96
 temperature: 27.5000
 loaded crc: 8a
 computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
+
+
+Wed Jun 29 21:02:00 CEST 2016
+parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
+precision: 96
+temperature: 27.6250
+loaded crc: 8a
+computed crc: 8a
