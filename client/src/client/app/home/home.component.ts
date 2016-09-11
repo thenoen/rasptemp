@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NameListService } from '../shared/index';
-import { ChartComponent } from '../+chart/chart.component';
 
 /**
  * This class represents the lazy loaded HomeComponent.
@@ -10,7 +9,6 @@ import { ChartComponent } from '../+chart/chart.component';
   selector: 'sd-home',
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css'],
-  directives: [ChartComponent]
 })
 
 export class HomeComponent implements OnInit {
@@ -39,10 +37,10 @@ export class HomeComponent implements OnInit {
    */
   getNames() {
     this.nameListService.get()
-                     .subscribe(
-                       names => this.names = names,
-                       error =>  this.errorMessage = <any>error
-                       );
+		     .subscribe(
+		       names => this.names = names,
+		       error =>  this.errorMessage = <any>error
+		       );
   }
 
   /**
