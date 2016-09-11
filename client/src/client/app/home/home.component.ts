@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NameListService } from '../shared/index';
+import {ChartComponent} from '../chart';
 
 /**
  * This class represents the lazy loaded HomeComponent.
@@ -8,7 +9,7 @@ import { NameListService } from '../shared/index';
   moduleId: module.id,
   selector: 'sd-home',
   templateUrl: 'home.component.html',
-  styleUrls: ['home.component.css'],
+  styleUrls: ['home.component.css']
 })
 
 export class HomeComponent implements OnInit {
