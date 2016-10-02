@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NameListService } from '../shared/index';
-import {ChartComponent} from '../chart';
 
 /**
  * This class represents the lazy loaded HomeComponent.
