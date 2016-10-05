@@ -20,8 +20,9 @@ export class ProjectConfig extends SeedConfig {
     // Add `NPM` third-party libraries to be injected/bundled.
     this.NPM_DEPENDENCIES = [
       ...this.NPM_DEPENDENCIES,
-      // {src: 'jquery/dist/jquery.min.js', inject: 'libs'},
-      // {src: 'lodash/lodash.min.js', inject: 'libs'},
+      { src: 'highcharts/highstock', inject: 'libs' },
+      { src: 'highcharts/modules/map', inject: 'libs' },
+      { src: 'highcharts/modules/data', inject: 'libs' }
     ];
 
     // Add `local` third-party libraries to be injected/bundled.
@@ -33,6 +34,15 @@ export class ProjectConfig extends SeedConfig {
 
     /* Add to or override NPM module configurations: */
     // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });
+    this.mergeObject(this.SYSTEM_BUILDER_CONFIG, {
+      packages: {
+        'ng2-highcharts': {
+          main: 'index.js',
+          defaultExtension: 'js'
+        }
+      }
+    });
+
   }
 
 }
