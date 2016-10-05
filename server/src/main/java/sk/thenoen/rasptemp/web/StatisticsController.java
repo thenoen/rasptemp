@@ -25,7 +25,7 @@ public class StatisticsController {
 	@Autowired
 	private TemperatureRecordLoadingService temperatureRecordLoadingService;
 
-	@RequestMapping("/")
+	@RequestMapping("/data")
 	public String index() {
 
 		long start =  System.currentTimeMillis();
