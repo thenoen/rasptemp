@@ -10,6 +10,7 @@ import { AboutModule } from './about/about.module';
 import { HomeModule } from './home/home.module';
 import { ChartsModule } from './charts/charts.module';
 import { SharedModule } from './shared/shared.module';
+import { TemperatureModule } from './temperature/temperature.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { SharedModule } from './shared/shared.module';
     AboutModule,
     HomeModule,
     ChartsModule,
+    TemperatureModule,
     SharedModule.forRoot()
   ],
   declarations: [AppComponent],
