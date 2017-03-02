@@ -1,5 +1,6 @@
 package sk.thenoen.rasptemp.temperature;
 
+import org.joda.time.DateTimeUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,8 +23,12 @@ import java.util.List;
 @Transactional
 public class TemperatureRecordLoadingServiceTest {
 
+	public static final int FIXED_CURRENT_DATE_MILLIS = 123;
 	@Autowired
 	private TemperatureRecordLoadingService temperatureRecordLoadingService;
+
+	@Autowired
+	private SensorReadingService sensorReadingService;
 
 	@Autowired
 	private TemperatureRecordRepository temperatureRecordRepository;
@@ -37,6 +42,21 @@ public class TemperatureRecordLoadingServiceTest {
 		List<TemperatureRecord> temperatureRecords = temperatureRecordRepository.findAll();
 
 		Assert.assertEquals(16, temperatureRecords.size());
+	}
+
+	@Test
+	public void verifyCorrectLoadingOfTemperatureRecordFromSensors() throws IOException {
+		ClassPathResource classPathResource = new ClassPathResource("/sensor-output.txt");
+		sensorReadingService.setSensorOutputPath(classPathResource.getFile().getAbsolutePath());
+
+		DateTimeUtils.setCurrentMillisFixed(FIXED_CURRENT_DATE_MILLIS);
+
+		TemperatureRecord temperatureRecord = temperatureRecordLoadingService.loadFromSensorFile();
+
+		Assert.assertEquals(FIXED_CURRENT_DATE_MILLIS, temperatureRecord.getDateMeasured().getTime());
+		Assert.assertEquals(Double.valueOf("24.812"), temperatureRecord.getDegrees());
+
+		DateTimeUtils.setCurrentMillisSystem();
 	}
 
 }

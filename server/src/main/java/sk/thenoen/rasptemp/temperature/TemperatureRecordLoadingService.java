@@ -1,5 +1,6 @@
 package sk.thenoen.rasptemp.temperature;
 
+import org.joda.time.DateTimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,9 +25,9 @@ import java.util.concurrent.*;
 @Service
 public class TemperatureRecordLoadingService {
 
-	private static final Logger log = LoggerFactory.getLogger(TemperatureRecordLoadingService.class);
-	public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z YYYY";
+	private static final Logger LOGGER = LoggerFactory.getLogger(TemperatureRecordLoadingService.class);
 
+	public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z YYYY";
 
 	@Value("${workers.number}")
 	private int numberOfWorkers;
@@ -34,15 +36,18 @@ public class TemperatureRecordLoadingService {
 	public int numberOfThreads;
 
 	@Autowired
+	private SensorReadingService sensorReadingService;
+
+	@Autowired
 	private TemperatureRecordRepository temperatureRecordRepository;
 
 	public void loadRecordsFromFile(String pathToFile) {
 
-		log.info("loading temperature records from file: {}", pathToFile);
+		LOGGER.info("loading temperature records from file: {}", pathToFile);
 
 		File file = new File(pathToFile);
 		if (!file.exists()) {
-			log.error("file does not exist");
+			LOGGER.error("file does not exist");
 			return;
 		}
 
@@ -50,7 +55,7 @@ public class TemperatureRecordLoadingService {
 		try {
 			fileReader = new FileReader(file);
 		} catch (FileNotFoundException e) {
-			log.error("Problem loading temperature records from file", e);
+			LOGGER.error("Problem loading temperature records from file", e);
 			return;
 		}
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -59,22 +64,32 @@ public class TemperatureRecordLoadingService {
 		try {
 			temperatureRecords = loadRecords(bufferedReader);
 		} catch (Exception e) {
-			log.error("problem with loading records", e);
+			LOGGER.error("problem with loading records", e);
 			return;
 		}
 
 
-		log.info("going to store all loaded records to database");
+		LOGGER.info("going to store all loaded records to database");
 		temperatureRecordRepository.save(temperatureRecords);
 //		for (TemperatureRecord temperatureRecord : temperatureRecords) {
 //			temperatureRecordRepository.save(temperatureRecord);
-//			log.info("Loaded temperature record: {}", temperatureRecord.getDegrees());
+//			LOGGER.info("Loaded temperature record: {}", temperatureRecord.getDegrees());
 //			int progress = temperatureRecords.indexOf(temperatureRecord) * 100 / temperatureRecords.size();
 //			if (progress % 10 == 0) {
-//				log.info("saving records to database - {}%", progress);
+//				LOGGER.info("saving records to database - {}%", progress);
 //			}
 //		}
-		log.info("all loaded records were stored to database");
+		LOGGER.info("all loaded records were stored to database");
+	}
+
+	public TemperatureRecord loadFromSensorFile() {
+		BigDecimal temperatureValue = sensorReadingService.readTemperature();
+
+		TemperatureRecord temperatureRecord = new TemperatureRecord();
+		temperatureRecord.setDateMeasured(new Date(DateTimeUtils.currentTimeMillis()));
+		temperatureRecord.setDegrees(temperatureValue.doubleValue());
+
+		return temperatureRecord;
 	}
 
 	private List<TemperatureRecord> loadRecords(BufferedReader bufferedReader) throws IOException, ParseException, BrokenBarrierException, InterruptedException, ExecutionException {
@@ -104,14 +119,14 @@ public class TemperatureRecordLoadingService {
 			}
 		}
 
-		log.info("loading finished - loaded {} records", temperatureRecords.size());
+		LOGGER.info("loading finished - loaded {} records", temperatureRecords.size());
 		return temperatureRecords;
 	}
 
 	private void retrieveParsedRecords(List<TemperatureRecord> temperatureRecords, List<Future<TemperatureRecord>> futureList, CountDownLatch countDownLatch) throws InterruptedException, ExecutionException {
-		log.info("going to wait on barrier - current number of waiting threads: {}/{}", countDownLatch.getCount(), numberOfWorkers);
+		LOGGER.info("going to wait on barrier - current number of waiting threads: {}/{}", countDownLatch.getCount(), numberOfWorkers);
 		countDownLatch.await();
-		log.info("waiting on a barrier finished - current count: {}", countDownLatch.getCount());
+		LOGGER.info("waiting on a barrier finished - current count: {}", countDownLatch.getCount());
 		for (Future<TemperatureRecord> future : futureList) {
 			temperatureRecords.add(future.get());
 		}
@@ -149,7 +164,7 @@ public class TemperatureRecordLoadingService {
 		@Override
 		public TemperatureRecord call() throws Exception {
 			TemperatureRecord temperatureRecord = createTemperatureRecord(dateString, temperatureValueString);
-			log.info("going to count down a latch - current count: {}({})", countDownLatch.getCount(), numberOfWorkers);
+			LOGGER.info("going to count down a latch - current count: {}({})", countDownLatch.getCount(), numberOfWorkers);
 			countDownLatch.countDown();
 			return temperatureRecord;
 		}
