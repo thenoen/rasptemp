@@ -4,6 +4,8 @@ import org.joda.time.DateTimeUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.core.io.ClassPathResource;
@@ -23,7 +25,10 @@ import java.util.List;
 @Transactional
 public class TemperatureRecordLoadingServiceTest {
 
-	public static final int FIXED_CURRENT_DATE_MILLIS = 123;
+	private static final Logger LOGGER = LoggerFactory.getLogger(TemperatureRecordLoadingServiceTest.class);
+
+	private static final int FIXED_CURRENT_DATE_MILLIS = 123;
+
 	@Autowired
 	private TemperatureRecordLoadingService temperatureRecordLoadingService;
 
@@ -42,6 +47,18 @@ public class TemperatureRecordLoadingServiceTest {
 		List<TemperatureRecord> temperatureRecords = temperatureRecordRepository.findAll();
 
 		Assert.assertEquals(16, temperatureRecords.size());
+	}
+
+	@Test
+	public void testPerformanceOfLoadingOfTemperatures() throws IOException {
+		ClassPathResource classPathResource = new ClassPathResource("/temperature-records-performance-test.txt");
+
+		Long start = System.currentTimeMillis();
+		temperatureRecordLoadingService.loadRecordsFromFile(classPathResource.getFile().getAbsolutePath());
+		Long end = System.currentTimeMillis();
+
+		Long duration = end - start;
+		LOGGER.info("Duration of loading: {}", duration); // original ~5000ms / ~3600ms without logging
 	}
 
 	@Test

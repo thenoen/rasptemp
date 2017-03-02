@@ -107,6 +107,7 @@ public class TemperatureRecordLoadingService {
 				if (worker != null) {
 					futureList.add(executor.submit(worker));
 				} else {
+					//we need to count down the latch to be able to unlock collecting of worker results
 					countDownLatch.countDown();
 					shouldFinish = true;
 				}
@@ -119,14 +120,16 @@ public class TemperatureRecordLoadingService {
 			}
 		}
 
+		executor.shutdown();
+
 		LOGGER.info("loading finished - loaded {} records", temperatureRecords.size());
 		return temperatureRecords;
 	}
 
 	private void retrieveParsedRecords(List<TemperatureRecord> temperatureRecords, List<Future<TemperatureRecord>> futureList, CountDownLatch countDownLatch) throws InterruptedException, ExecutionException {
-		LOGGER.info("going to wait on barrier - current number of waiting threads: {}/{}", countDownLatch.getCount(), numberOfWorkers);
+//		LOGGER.info("going to wait on barrier - current number of waiting threads: {}/{}", countDownLatch.getCount(), numberOfWorkers);
 		countDownLatch.await();
-		LOGGER.info("waiting on a barrier finished - current count: {}", countDownLatch.getCount());
+//		LOGGER.info("waiting on a barrier finished - current count: {}", countDownLatch.getCount());
 		for (Future<TemperatureRecord> future : futureList) {
 			temperatureRecords.add(future.get());
 		}
@@ -164,7 +167,7 @@ public class TemperatureRecordLoadingService {
 		@Override
 		public TemperatureRecord call() throws Exception {
 			TemperatureRecord temperatureRecord = createTemperatureRecord(dateString, temperatureValueString);
-			LOGGER.info("going to count down a latch - current count: {}({})", countDownLatch.getCount(), numberOfWorkers);
+//			LOGGER.info("going to count down a latch - current count: {}({})", countDownLatch.getCount(), numberOfWorkers);
 			countDownLatch.countDown();
 			return temperatureRecord;
 		}
