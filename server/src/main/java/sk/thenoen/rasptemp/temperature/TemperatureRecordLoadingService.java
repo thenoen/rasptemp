@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class TemperatureRecordLoadingService {
@@ -43,7 +45,7 @@ public class TemperatureRecordLoadingService {
 
 	public void loadRecordsFromFile(String pathToFile) {
 
-		LOGGER.info("loading temperature records from file: {}", pathToFile);
+//		LOGGER.info("loading temperature records from file: {}", pathToFile);
 
 		File file = new File(pathToFile);
 		if (!file.exists()) {
@@ -62,14 +64,17 @@ public class TemperatureRecordLoadingService {
 
 		List<TemperatureRecord> temperatureRecords;
 		try {
+			long start = System.currentTimeMillis();
 			temperatureRecords = loadRecords(bufferedReader);
+			long end = System.currentTimeMillis();
+			LOGGER.info("duration: {} ms", end - start);
 		} catch (Exception e) {
 			LOGGER.error("problem with loading records", e);
 			return;
 		}
 
 
-		LOGGER.info("going to store all loaded records to database");
+//		LOGGER.info("going to store all loaded records to database");
 		temperatureRecordRepository.save(temperatureRecords);
 //		for (TemperatureRecord temperatureRecord : temperatureRecords) {
 //			temperatureRecordRepository.save(temperatureRecord);
@@ -79,7 +84,7 @@ public class TemperatureRecordLoadingService {
 //				LOGGER.info("saving records to database - {}%", progress);
 //			}
 //		}
-		LOGGER.info("all loaded records were stored to database");
+//		LOGGER.info("all loaded records were stored to database");
 	}
 
 	public TemperatureRecord loadFromSensorFile() {
@@ -93,50 +98,50 @@ public class TemperatureRecordLoadingService {
 	}
 
 	private List<TemperatureRecord> loadRecords(BufferedReader bufferedReader) throws IOException, ParseException, BrokenBarrierException, InterruptedException, ExecutionException {
-		List<TemperatureRecord> temperatureRecords = new ArrayList<>();
+		final List<TemperatureRecord> temperatureRecords = new ArrayList<>();
 
-		final List<Future<TemperatureRecord>> futureList = new ArrayList<>(numberOfWorkers);
-		ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
-		CountDownLatch countDownLatch = new CountDownLatch(numberOfWorkers);
+		final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numberOfThreads);
 
+		final ExecutorCompletionService<TemperatureRecord> executorCompletionService = new ExecutorCompletionService(executor);
 
-		while (true) {
-			boolean shouldFinish = false;
-			for (int i = 0; i < numberOfWorkers; i++) {
-				Worker worker = createWorker(bufferedReader, countDownLatch);
-				if (worker != null) {
-					futureList.add(executor.submit(worker));
-				} else {
-					//we need to count down the latch to be able to unlock collecting of worker results
-					countDownLatch.countDown();
-					shouldFinish = true;
+		final AtomicBoolean shouldFinish = new AtomicBoolean(false);
+		final AtomicLong nrOfWorkers = new AtomicLong(0);
+
+		Thread t = new Thread() {
+
+			@Override
+			public void run() {
+				try {
+					while (!shouldFinish.get() || nrOfWorkers.get() > 0) {
+						Future<TemperatureRecord> future = executorCompletionService.take();
+						temperatureRecords.add(future.get());
+						nrOfWorkers.decrementAndGet();
+					}
+				} catch (InterruptedException | ExecutionException e) {
+					LOGGER.error("error during collecting of temperatures", e);
 				}
 			}
+		};
+		t.start();
 
-			retrieveParsedRecords(temperatureRecords, futureList, countDownLatch);
-			countDownLatch = new CountDownLatch(numberOfWorkers);
-			if (shouldFinish) {
-				break;
+		while (!shouldFinish.get()) {
+			Worker worker = createWorker(bufferedReader);
+			if (worker != null) {
+				executorCompletionService.submit(worker);
+				nrOfWorkers.incrementAndGet();
+			} else {
+				shouldFinish.set(true);
 			}
 		}
 
+		t.join();
 		executor.shutdown();
 
-		LOGGER.info("loading finished - loaded {} records", temperatureRecords.size());
+//		LOGGER.info("loading finished - loaded {} records", temperatureRecords.size());
 		return temperatureRecords;
 	}
 
-	private void retrieveParsedRecords(List<TemperatureRecord> temperatureRecords, List<Future<TemperatureRecord>> futureList, CountDownLatch countDownLatch) throws InterruptedException, ExecutionException {
-//		LOGGER.info("going to wait on barrier - current number of waiting threads: {}/{}", countDownLatch.getCount(), numberOfWorkers);
-		countDownLatch.await();
-//		LOGGER.info("waiting on a barrier finished - current count: {}", countDownLatch.getCount());
-		for (Future<TemperatureRecord> future : futureList) {
-			temperatureRecords.add(future.get());
-		}
-		futureList.clear();
-	}
-
-	private Worker createWorker(BufferedReader bufferedReader, CountDownLatch countDownLatch) throws IOException {
+	private Worker createWorker(BufferedReader bufferedReader) throws IOException {
 		bufferedReader.readLine(); // skip this line
 		bufferedReader.readLine(); // skip this line
 		String dateString = bufferedReader.readLine();
@@ -149,17 +154,15 @@ public class TemperatureRecordLoadingService {
 		bufferedReader.readLine(); // skip this line
 		bufferedReader.readLine(); // skip this line
 
-		return new Worker(dateString, temperatureValueString, countDownLatch);
+		return new Worker(dateString, temperatureValueString);
 	}
 
 	private class Worker implements Callable<TemperatureRecord> {
 
-		private CountDownLatch countDownLatch;
 		private String dateString;
 		private String temperatureValueString;
 
-		private Worker(String dateString, String temperatureValueString, CountDownLatch countDownLatch) {
-			this.countDownLatch = countDownLatch;
+		private Worker(String dateString, String temperatureValueString) {
 			this.dateString = dateString;
 			this.temperatureValueString = temperatureValueString;
 		}
@@ -167,8 +170,6 @@ public class TemperatureRecordLoadingService {
 		@Override
 		public TemperatureRecord call() throws Exception {
 			TemperatureRecord temperatureRecord = createTemperatureRecord(dateString, temperatureValueString);
-//			LOGGER.info("going to count down a latch - current count: {}({})", countDownLatch.getCount(), numberOfWorkers);
-			countDownLatch.countDown();
 			return temperatureRecord;
 		}
 
@@ -184,5 +185,13 @@ public class TemperatureRecordLoadingService {
 			return temperatureRecord;
 		}
 
+	}
+
+	public void setNumberOfWorkers(int numberOfWorkers) {
+		this.numberOfWorkers = numberOfWorkers;
+	}
+
+	public void setNumberOfThreads(int numberOfThreads) {
+		this.numberOfThreads = numberOfThreads;
 	}
 }

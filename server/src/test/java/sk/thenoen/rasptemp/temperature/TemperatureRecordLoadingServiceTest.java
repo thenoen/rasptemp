@@ -21,7 +21,7 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = RaspTempApplication.class)
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
 @Transactional
 public class TemperatureRecordLoadingServiceTest {
 
@@ -56,9 +56,22 @@ public class TemperatureRecordLoadingServiceTest {
 		Long start = System.currentTimeMillis();
 		temperatureRecordLoadingService.loadRecordsFromFile(classPathResource.getFile().getAbsolutePath());
 		Long end = System.currentTimeMillis();
+		LOGGER.info("Duration of loading in first run: {}", end - start);
+		Assert.assertEquals(22812, temperatureRecordRepository.findAll().size());
+		temperatureRecordRepository.deleteAll();
 
-		Long duration = end - start;
-		LOGGER.info("Duration of loading: {}", duration); // original ~5000ms / ~3600ms without logging
+		for (int threads = 1; threads < 11; threads++) {
+			for (int workers = 1; workers < 11; workers++) {
+				LOGGER.info("Running benchmark with {} threads and {} workers", threads, workers);
+				temperatureRecordLoadingService.setNumberOfThreads(threads);
+				temperatureRecordLoadingService.setNumberOfWorkers(workers);
+				temperatureRecordLoadingService.loadRecordsFromFile(classPathResource.getFile().getAbsolutePath());
+
+				Assert.assertEquals(22812, temperatureRecordRepository.findAll().size());
+				temperatureRecordRepository.deleteAll();
+				LOGGER.info("\n");
+			}
+		}
 	}
 
 	@Test
