@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 @Service
 public class SensorReadingService {
 
-	Logger LOG = LoggerFactory.getLogger(SensorReadingService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SensorReadingService.class);
+	private static final int TEMPERATURE_SCALE = 3;
 
 	@Value("${temperature.sensorOutputPath}")
 	private String sensorOutputPath;
@@ -25,7 +26,9 @@ public class SensorReadingService {
 	private static final Pattern line1Pattern = Pattern.compile(".*?crc=.*?\\s(.*)");
 	private static final Pattern line2Pattern = Pattern.compile(".*?t=(.*)");
 
-	public BigDecimal readTemperature() {
+	BigDecimal readTemperature() {
+
+		LOG.info("loading records from file {}", sensorOutputPath);
 
 		try (FileReader fileReader = new FileReader(sensorOutputPath);
 		     BufferedReader bufferedReader = new BufferedReader(fileReader)) {
@@ -46,7 +49,7 @@ public class SensorReadingService {
 				if (line2 != null) {
 					matcher = line2Pattern.matcher(line2);
 					if (matcher.matches()) {
-						return new BigDecimal(matcher.group(1)).divide(DIVISOR);
+						return new BigDecimal(matcher.group(1)).divide(DIVISOR, TEMPERATURE_SCALE, BigDecimal.ROUND_UP);
 					}
 				}
 			}
@@ -56,7 +59,7 @@ public class SensorReadingService {
 		return null;
 	}
 
-	public void setSensorOutputPath(String sensorOutputPath) {
+	void setSensorOutputPath(String sensorOutputPath) {
 		this.sensorOutputPath = sensorOutputPath;
 	}
 }

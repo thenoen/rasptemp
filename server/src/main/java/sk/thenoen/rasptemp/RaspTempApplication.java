@@ -3,11 +3,11 @@ package sk.thenoen.rasptemp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import sk.thenoen.rasptemp.temperature.TemperatureRecordLoadingService;
 
 @ComponentScan
 //@EnableAutoConfiguration
@@ -19,7 +19,11 @@ public class RaspTempApplication {
 
 	public static void main(String[] args) {
 		log.info("Before main() method");
-		SpringApplication.run(RaspTempApplication.class, args);
+		ConfigurableApplicationContext context = SpringApplication.run(RaspTempApplication.class, args);
+
+		TemperatureRecordLoadingService temperatureRecordLoadingService = context.getBean(TemperatureRecordLoadingService.class);
+		temperatureRecordLoadingService.loadInitialRecordsFromFolder();
+
 		log.info("After main() method");
 	}
 }

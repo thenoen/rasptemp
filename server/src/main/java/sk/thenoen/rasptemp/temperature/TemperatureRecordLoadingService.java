@@ -15,6 +15,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,12 +34,16 @@ public class TemperatureRecordLoadingService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TemperatureRecordLoadingService.class);
 
 	public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z YYYY";
+	public static final String DATE_FORMAT_ALTERNATIVE = "EEE dd MMM HH:mm:ss z YYYY";
 
 	@Value("${workers.number}")
 	private int numberOfWorkers;
 
 	@Value("${threads.number}")
-	public int numberOfThreads;
+	private int numberOfThreads;
+
+	@Value("${temperatures.initialFolderPath}")
+	private String initialFolderPath;
 
 	@Autowired
 	private SensorReadingService sensorReadingService;
@@ -43,9 +51,21 @@ public class TemperatureRecordLoadingService {
 	@Autowired
 	private TemperatureRecordRepository temperatureRecordRepository;
 
+	public void loadInitialRecordsFromFolder() {
+		Path path = Paths.get(initialFolderPath);
+
+		try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path)) {
+			for (Path p : directoryStream) {
+				loadRecordsFromFile(p.toString());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void loadRecordsFromFile(String pathToFile) {
 
-//		LOGGER.info("loading temperature records from file: {}", pathToFile);
+		LOGGER.info("loading temperature records from file: {}", pathToFile);
 
 		File file = new File(pathToFile);
 		if (!file.exists()) {
@@ -87,14 +107,15 @@ public class TemperatureRecordLoadingService {
 //		LOGGER.info("all loaded records were stored to database");
 	}
 
-	public TemperatureRecord loadFromSensorFile() {
+	public void loadFromSensorFile() {
 		BigDecimal temperatureValue = sensorReadingService.readTemperature();
 
 		TemperatureRecord temperatureRecord = new TemperatureRecord();
 		temperatureRecord.setDateMeasured(new Date(DateTimeUtils.currentTimeMillis()));
 		temperatureRecord.setDegrees(temperatureValue.doubleValue());
 
-		return temperatureRecord;
+		LOGGER.info("Loaded temperature: {}", temperatureRecord);
+		temperatureRecordRepository.save(temperatureRecord);
 	}
 
 	private List<TemperatureRecord> loadRecords(BufferedReader bufferedReader) throws IOException, ParseException, BrokenBarrierException, InterruptedException, ExecutionException {
@@ -177,7 +198,11 @@ public class TemperatureRecordLoadingService {
 			Date dateMeasured;
 
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
-			dateMeasured = simpleDateFormat.parse(dateString);
+			try {
+				dateMeasured = simpleDateFormat.parse(dateString);
+			} catch (ParseException e) {
+				dateMeasured = new SimpleDateFormat(DATE_FORMAT_ALTERNATIVE).parse(dateString);
+			}
 
 			TemperatureRecord temperatureRecord = new TemperatureRecord();
 			temperatureRecord.setDateMeasured(dateMeasured);
@@ -193,5 +218,9 @@ public class TemperatureRecordLoadingService {
 
 	public void setNumberOfThreads(int numberOfThreads) {
 		this.numberOfThreads = numberOfThreads;
+	}
+
+	public void setInitialFolderPath(String initialFolderPath) {
+		this.initialFolderPath = initialFolderPath;
 	}
 }

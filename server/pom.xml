@@ -142,12 +142,12 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<argLine>-Xmx256m -XX:MaxPermSize=256</argLine>
-				</configuration>
-			</plugin>
+			<!--<plugin>-->
+				<!--<artifactId>maven-surefire-plugin</artifactId>-->
+				<!--<configuration>-->
+					<!--<argLine>-Xmx512m -XX:MaxPermSize=256</argLine>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
 
 
 			<plugin>

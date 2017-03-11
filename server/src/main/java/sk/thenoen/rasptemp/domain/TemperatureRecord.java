@@ -41,4 +41,13 @@ public class TemperatureRecord {
 	public void setDateMeasured(Date dateMeasured) {
 		this.dateMeasured = dateMeasured;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Date: ").append(dateMeasured);
+		sb.append(" - ");
+		sb.append("Temperature: ").append(degrees);
+		return sb.toString();
+	}
 }

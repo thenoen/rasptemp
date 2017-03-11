@@ -12,17 +12,12 @@ public class LoadingScheduler {
 
 	private static final Logger log = LoggerFactory.getLogger(LoadingScheduler.class);
 
-	@Value("${temperature.input.file}")
-	private String inputFilePath;
-
 	@Autowired
 	private TemperatureRecordLoadingService temperatureRecordLoadingService;
 
-//	@Scheduled(fixedRate = 60000)
+	@Scheduled(cron = "*/5 * * * * *")
 	public void loadMeasurementsFromFile() {
-
-		log.info("loading records from file {}", inputFilePath);
-		temperatureRecordLoadingService.loadRecordsFromFile(inputFilePath);
+		temperatureRecordLoadingService.loadFromSensorFile();
 	}
 
 }
