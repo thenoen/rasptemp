@@ -2,7 +2,7 @@
 
 SYSTEM_PROPERTIES="
 -Xms50m
--Xmx120m
+-Xmx115m
 -XX:MaxMetaspaceSize=50m
 -XX:-UseCompressedOops
 -XX:-UseCompressedClassPointers

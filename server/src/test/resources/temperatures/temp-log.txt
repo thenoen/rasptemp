@@ -32,7 +32,7 @@ loaded crc: 8a
 computed crc: 8a
 
 
-Wed Jun 29 21:02:00 CEST 2016
+Wed Jun 29 21:02:01 CEST 2016
 parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
 precision: 96
 temperature: 27.6250
@@ -40,7 +40,7 @@ loaded crc: 8a
 computed crc: 8a
 
 
-Wed Jun 29 21:02:00 CEST 2016
+Wed Jun 29 21:02:02 CEST 2016
 parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
 precision: 96
 temperature: 27.6250
@@ -48,7 +48,7 @@ loaded crc: 8a
 computed crc: 8a
 
 
-Wed Jun 29 21:02:00 CEST 2016
+Wed Jun 29 21:02:03 CEST 2016
 parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
 precision: 96
 temperature: 27.6250
@@ -56,7 +56,7 @@ loaded crc: 8a
 computed crc: 8a
 
 
-Wed Jun 29 21:02:00 CEST 2016
+Wed Jun 29 21:02:04 CEST 2016
 parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
 precision: 96
 temperature: 27.6250
@@ -64,7 +64,7 @@ loaded crc: 8a
 computed crc: 8a
 
 
-Wed Jun 29 21:02:00 CEST 2016
+Wed Jun 29 21:02:05 CEST 2016
 parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
 precision: 96
 temperature: 27.6250
@@ -72,7 +72,7 @@ loaded crc: 8a
 computed crc: 8a
 
 
-Wed Jun 29 21:02:00 CEST 2016
+Wed Jun 29 21:02:06 CEST 2016
 parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
 precision: 96
 temperature: 27.6250
@@ -80,7 +80,7 @@ loaded crc: 8a
 computed crc: 8a
 
 
-Wed Jun 29 21:02:00 CEST 2016
+Wed Jun 29 21:02:07 CEST 2016
 parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
 precision: 96
 temperature: 27.6250
@@ -88,7 +88,7 @@ loaded crc: 8a
 computed crc: 8a
 
 
-Wed Jun 29 21:02:00 CEST 2016
+Wed Jun 29 21:02:08 CEST 2016
 parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
 precision: 96
 temperature: 27.6250
@@ -96,7 +96,7 @@ loaded crc: 8a
 computed crc: 8a
 
 
-Wed Jun 29 21:02:00 CEST 2016
+Wed Jun 29 21:02:09 CEST 2016
 parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
 precision: 96
 temperature: 27.6250
@@ -104,7 +104,7 @@ loaded crc: 8a
 computed crc: 8a
 
 
-Wed Jun 29 21:02:00 CEST 2016
+Wed Jun 29 21:02:10 CEST 2016
 parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
 precision: 96
 temperature: 27.6250
@@ -112,7 +112,7 @@ loaded crc: 8a
 computed crc: 8a
 
 
-Wed Jun 29 21:02:00 CEST 2016
+Wed Jun 29 21:02:11 CEST 2016
 parsing... /sys/bus/w1/devices/28-000006dc1ebe/w1_slave
 precision: 96
 temperature: 27.6250

@@ -93,18 +93,31 @@ public class TemperatureRecordLoadingService {
 			return;
 		}
 
+		saveTemperatureRecords(temperatureRecords);
+	}
 
-//		LOGGER.info("going to store all loaded records to database");
-		temperatureRecordRepository.save(temperatureRecords);
-//		for (TemperatureRecord temperatureRecord : temperatureRecords) {
-//			temperatureRecordRepository.save(temperatureRecord);
-//			LOGGER.info("Loaded temperature record: {}", temperatureRecord.getDegrees());
-//			int progress = temperatureRecords.indexOf(temperatureRecord) * 100 / temperatureRecords.size();
-//			if (progress % 10 == 0) {
-//				LOGGER.info("saving records to database - {}%", progress);
-//			}
-//		}
-//		LOGGER.info("all loaded records were stored to database");
+	private void saveTemperatureRecords(List<TemperatureRecord> temperatureRecords) {
+		LOGGER.info("going to store all loaded records to database");
+		int prevProgress = -1;
+		for(int i = 0; i<temperatureRecords.size(); i++) {
+
+			TemperatureRecord temperatureRecord = temperatureRecords.get(i);
+			saveTemperatureRecord(temperatureRecord);
+
+			int progress = i * 100 / temperatureRecords.size();
+			if (progress % 10 == 0 && prevProgress != progress) {
+				prevProgress = progress;
+				LOGGER.info("saving records to database - {}%", progress);
+			}
+		}
+		LOGGER.info("all loaded records were stored to database");
+	}
+
+	private void saveTemperatureRecord(TemperatureRecord temperatureRecord) {
+		TemperatureRecord saved = temperatureRecordRepository.findOneByDateMeasured(temperatureRecord.getDateMeasured());
+		if (saved == null) {
+			temperatureRecordRepository.save(temperatureRecord);
+		}
 	}
 
 	public void loadFromSensorFile() {
@@ -115,7 +128,7 @@ public class TemperatureRecordLoadingService {
 		temperatureRecord.setDegrees(temperatureValue.doubleValue());
 
 		LOGGER.info("Loaded temperature: {}", temperatureRecord);
-		temperatureRecordRepository.save(temperatureRecord);
+		saveTemperatureRecord(temperatureRecord);
 	}
 
 	private List<TemperatureRecord> loadRecords(BufferedReader bufferedReader) throws IOException, ParseException, BrokenBarrierException, InterruptedException, ExecutionException {

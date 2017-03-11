@@ -20,6 +20,8 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = RaspTempApplication.class)
 @TestPropertySource(locations = "classpath:test.properties")
@@ -42,14 +44,15 @@ public class TemperatureRecordLoadingServiceTest {
 	@Test
 	public void verifyCorrectLoadingOfTemperatures() throws IOException {
 		ClassPathResource classPathResource = new ClassPathResource("temperatures/temp-log.txt");
-
 		temperatureRecordLoadingService.setInitialFolderPath(classPathResource.getFile().getParent());
-//		temperatureRecordLoadingService.loadRecordsFromFile(classPathResource.getFile().getAbsolutePath());
+
 		temperatureRecordLoadingService.loadInitialRecordsFromFolder();
-
 		List<TemperatureRecord> temperatureRecords = temperatureRecordRepository.findAll();
+		assertEquals(16, temperatureRecords.size());
 
-		Assert.assertEquals(16, temperatureRecords.size());
+		temperatureRecordLoadingService.loadInitialRecordsFromFolder();
+		temperatureRecords = temperatureRecordRepository.findAll();
+		assertEquals(16, temperatureRecords.size());
 	}
 
 	@Ignore("this test is using too much memory")
@@ -61,7 +64,7 @@ public class TemperatureRecordLoadingServiceTest {
 		temperatureRecordLoadingService.loadRecordsFromFile(classPathResource.getFile().getAbsolutePath());
 		Long end = System.currentTimeMillis();
 		LOGGER.info("Duration of loading in first run: {}", end - start);
-		Assert.assertEquals(22812, temperatureRecordRepository.findAll().size());
+		assertEquals(22812, temperatureRecordRepository.findAll().size());
 		temperatureRecordRepository.deleteAll();
 
 		for (int threads = 1; threads < 11; threads++) {
@@ -71,7 +74,7 @@ public class TemperatureRecordLoadingServiceTest {
 				temperatureRecordLoadingService.setNumberOfWorkers(workers);
 				temperatureRecordLoadingService.loadRecordsFromFile(classPathResource.getFile().getAbsolutePath());
 
-				Assert.assertEquals(22812, temperatureRecordRepository.findAll().size());
+				assertEquals(22812, temperatureRecordRepository.findAll().size());
 				temperatureRecordRepository.deleteAll();
 				LOGGER.info("\n");
 			}
@@ -87,11 +90,11 @@ public class TemperatureRecordLoadingServiceTest {
 
 		temperatureRecordLoadingService.loadFromSensorFile();
 
-		Assert.assertEquals(1, temperatureRecordRepository.findAll().size());
+		assertEquals(1, temperatureRecordRepository.findAll().size());
 		TemperatureRecord temperatureRecord = temperatureRecordRepository.findAll().get(0);
 
-		Assert.assertEquals(FIXED_CURRENT_DATE_MILLIS, temperatureRecord.getDateMeasured().getTime());
-		Assert.assertEquals(Double.valueOf("24.812"), temperatureRecord.getDegrees());
+		assertEquals(FIXED_CURRENT_DATE_MILLIS, temperatureRecord.getDateMeasured().getTime());
+		assertEquals(Double.valueOf("24.812"), temperatureRecord.getDegrees());
 
 		DateTimeUtils.setCurrentMillisSystem();
 	}
