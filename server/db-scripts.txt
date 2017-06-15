@@ -1,0 +1,16 @@
+SELECT  mu.host `Host`,  mu.user `User`  FROM  mysql.user mu;d
+
+SELECT  mu.host `Host`,  mu.user `User`, mu.password `pass`  FROM  mysql.user mu;
+
+
+GRANT ALL PRIVILEGES ON raspberry_temperatures.* TO 'pi'@'desktop';
+
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'pi'@'%';
+
+show grants for 'pi'@'%';
+
+mysql -u root -p --silent --skip-column-names --execute "select concat('\'',User,'\'@\'',Host,'\'') as User from mysql.user" | sort | while read u;  do echo "-- $u"; mysql -u root -p --silent --skip-column-names --execute "show grants for $u" | sed 's/$/;/'; done
+
+CREATE USER 'user'@'%' IDENTIFIED BY 'password';
+GRANT USAGE ON *.* TO 'pi'@'%' IDENTIFIED BY PASSWORD '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19';
+GRANT ALL PRIVILEGES ON `raspberry_temperatures`.* TO 'pi'@'%';
