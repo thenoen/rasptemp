@@ -6,11 +6,13 @@ import { GraphComponent } from './graph/graph.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { TemperatureViewerComponent } from './temperature-viewer/temperature-viewer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GraphComponent
+    GraphComponent,
+    TemperatureViewerComponent
   ],
   imports: [
     BrowserModule,
