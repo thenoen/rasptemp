@@ -8,9 +8,13 @@ export class GetTemperaturesService {
 
     getTemperatures(): Promise<Temperature[]> {
 
+        this.temperatures = [];
         let temperature: Temperature;
 
-        for (var i = 0; i < 100; i++) {
+        let nrOfValues: number;
+        nrOfValues = Math.floor(Math.random() * 30);
+
+        for (var i = 0; i < nrOfValues; i++) {
             temperature = new Temperature();
             temperature.date = new Date("February 4, 2016 10:13:00");
             temperature.date.setMinutes(temperature.date.getMinutes() + i);
@@ -18,8 +22,8 @@ export class GetTemperaturesService {
             this.temperatures.push(temperature);
         }
 
-        console.log("created server response");
-        console.log(this.temperatures);
+        // console.log("created server response");
+        // console.log(this.temperatures);
         return Promise.resolve(this.temperatures);
     }
 

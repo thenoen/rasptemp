@@ -56,8 +56,8 @@ export class TemperatureViewerComponent implements OnInit {
   }
 
   private handleResponse(temperatures: Temperature[]): void {
-    console.log("handling response");
-    console.log(temperatures);
+    // console.log("handling response");
+    // console.log(temperatures);
 
     let data: Array<any> = new Array();
 
@@ -65,10 +65,10 @@ export class TemperatureViewerComponent implements OnInit {
       data.push({ "name": temperatures[i].date.toString(), "value": temperatures[i].degrees });
     }
 
-    
+    console.log("size: " + data.length)
     this.multidata = [{ "name": "Temperatures", "series": data }];
-    console.log("updated multidata");
-    console.log(this.multidata);
+    // console.log("updated multidata");
+    // console.log(this.multidata);
   }
 
 }
