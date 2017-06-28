@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GraphConfiguration } from '../graph/graph-configuration';
+import { GetTemperaturesService } from '../service/get-temperatures-service';
+
+import { Temperature } from './../model/temperature';
 
 @Component({
   selector: 'app-temperature-viewer',
@@ -35,43 +38,37 @@ export class TemperatureViewerComponent implements OnInit {
           "value": 7540000
         }
       ]
-    },
-
-    {
-      "name": "USA",
-      "series": [
-        {
-          "name": "2010",
-          "value": 7870000
-        },
-        {
-          "name": "2011",
-          "value": 8270000
-        }
-      ]
-    },
-
-    {
-      "name": "France",
-      "series": [
-        {
-          "name": "2010",
-          "value": 5000002
-        },
-        {
-          "name": "2011",
-          "value": 5800000
-        }
-      ]
     }
   ];
 
-  constructor() {
+  constructor(private getTemperaturesService: GetTemperaturesService) {
     console.log("constructor: " + this.graphConfiguration);
   }
 
   ngOnInit() {
     console.log("onInit: " + this.graphConfiguration);
+    this.startTemperaturesLoading();
+  }
+
+  private startTemperaturesLoading(): void {
+    let x: Temperature[];
+    this.getTemperaturesService.getTemperatures().then((temperatures) => this.handleResponse(temperatures));
+  }
+
+  private handleResponse(temperatures: Temperature[]): void {
+    console.log("handling response");
+    console.log(temperatures);
+
+    let data: Array<any> = new Array();
+
+    for (var i = 0; i < temperatures.length; i++) {
+      data.push({ "name": temperatures[i].date.toString(), "value": temperatures[i].degrees });
+    }
+
+    
+    this.multidata = [{ "name": "Temperatures", "series": data }];
+    console.log("updated multidata");
+    console.log(this.multidata);
   }
 
 }

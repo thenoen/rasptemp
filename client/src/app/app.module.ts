@@ -8,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TemperatureViewerComponent } from './temperature-viewer/temperature-viewer.component';
 
+import { GetTemperaturesService } from './service/get-temperatures-service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +21,7 @@ import { TemperatureViewerComponent } from './temperature-viewer/temperature-vie
     NgxChartsModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [GetTemperaturesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
