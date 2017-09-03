@@ -60,8 +60,10 @@ export class A2HighchartsGraphComponent implements OnInit {
   }
   addPoint() {
     console.log(this.chart);
-    this.chart.series[0].addPoint(Math.random() * 10);
-    this.chart.series[1].addPoint(Math.random() * -10);
+    var point: any;
+    point = [Date.UTC(1971, 12, 3), 5];
+    this.chart.series[0].addPoint(point);
+    // this.chart.series[1].addPoint(Math.random() * -10);
   }
   onPointSelect(point) {
     alert(`${point.y} is selected`);
