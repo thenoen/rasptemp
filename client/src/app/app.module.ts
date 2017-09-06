@@ -9,6 +9,7 @@ import { A2HighchartsGraphComponent } from './a2-highcharts-graph/a2-highcharts-
 
 import { ChartModule } from 'angular2-highcharts';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
+import { ChartListComponent } from './chart-list/chart-list.component';
 
 declare var require: any;
 export function highchartsFactory() {
@@ -18,6 +19,10 @@ export function highchartsFactory() {
 @NgModule({
   declarations: [
     AppComponent,
+    A2HighchartsGraphComponent,
+    ChartListComponent
+  ],
+  entryComponents: [
     A2HighchartsGraphComponent
   ],
   imports: [
@@ -25,10 +30,10 @@ export function highchartsFactory() {
     ChartModule
   ],
   providers: [GetTemperaturesService,
-   {
-    provide: HighchartsStatic,
-    useFactory: highchartsFactory
-  },],
+    {
+      provide: HighchartsStatic,
+      useFactory: highchartsFactory
+    },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
