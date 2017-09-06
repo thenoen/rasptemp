@@ -12,18 +12,17 @@ export class GetTemperaturesService {
         let temperature: Temperature;
 
         let nrOfValues: number;
-        nrOfValues = Math.floor(Math.random() * 30);
+        nrOfValues = Math.floor(Math.random() * 30) + 10;
 
         for (var i = 0; i < nrOfValues; i++) {
             temperature = new Temperature();
-            temperature.date = new Date("February 4, 2016 10:13:00");
-            temperature.date.setMinutes(temperature.date.getMinutes() + i);
-            temperature.degrees = Math.floor(Math.random() *100) / 10;
+            var parsedDate: Date = new Date("February 4, 2016 10:13:00");
+            temperature.date = new Date(parsedDate.getTime() + (1000 * 60 * 60 * Math.floor(Math.random() * 100)));
+            // temperature.date.setMinutes(temperature.date.getMinutes() + i);
+            temperature.degrees = Math.floor(Math.random() * 100) / 10;
             this.temperatures.push(temperature);
         }
 
-        // console.log("created server response");
-        // console.log(this.temperatures);
         return Promise.resolve(this.temperatures);
     }
 

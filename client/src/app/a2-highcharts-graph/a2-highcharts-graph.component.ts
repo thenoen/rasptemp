@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartComponent } from 'angular2-highcharts';
-import { ChartObject } from 'highcharts'
-// import {HighchartsChartObject} from 'angular2-highcharts';
+import { ChartObject } from 'highcharts';
+import { GetTemperaturesService } from "../service/get-temperatures-service";
+import { Temperature } from '../model/temperature';
 
 @Component({
   selector: 'app-a2-highcharts-graph',
@@ -13,7 +14,7 @@ export class A2HighchartsGraphComponent implements OnInit {
   options: Object;
   chart: ChartObject;
 
-  constructor() {
+  constructor(private getTemperatureService: GetTemperaturesService) {
     this.options = {
       chart: {
         type: 'spline'
@@ -84,7 +85,7 @@ export class A2HighchartsGraphComponent implements OnInit {
     // this.chart.series[0].addPoint(point);
     // this.chart.series[1].addPoint(Math.random() * -10);
 
-    this.changeSeries();
+    this.getTemperatureService.getTemperatures().then((temperatures) => this.changeSeries(temperatures))
   }
 
   onPointSelect(point) {
@@ -98,25 +99,39 @@ export class A2HighchartsGraphComponent implements OnInit {
   ngOnInit() {
   }
 
-  changeSeries() {
+  changeSeries(temperatures: Temperature[]) {
 
     console.log("this.chart:")
     console.log(this.chart)
     console.log("this.chart.addSeries:")
     console.log(this.chart.addSeries)
 
+    // this.chart.addSeries({
+    //   name: 's1',
+    //   data: [],
+    //   allowPointSelect: true
+    // })
+
+    this.chart.series[0].remove();
+
     this.chart.addSeries({
       name: 's1',
-      data: [[Date.UTC(1970, 10, 9), 1.25],
-      [Date.UTC(1970, 10, 27), 1.2],
-      [Date.UTC(1970, 11, 2), 1.28],
-      [Date.UTC(1970, 11, 26), 1.28],
-      [Date.UTC(1970, 11, 29), 1.47],
-      [Date.UTC(1971, 0, 11), 1.79],
-      [Date.UTC(1971, 0, 26), 1.72]],
+      data: this.createDataArray(temperatures),
       allowPointSelect: true
     })
 
+  }
+
+  createDataArray(temperatures: Temperature[]): any[] {
+    var data: any[];
+
+    data = [];
+
+    for (var i = 1; i < temperatures.length; i++) {
+      data.push([Date.parse(temperatures[i].date.toUTCString()), temperatures[i].degrees])
+    }
+
+    return data;
   }
 
 }
