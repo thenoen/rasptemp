@@ -1,17 +1,6 @@
-<ng-container *ngComponentOutlet="chartList;
-injector:myInjector;
-content:chartList"></ng-container>
-<ng-content></ng-content>
-<ng-content></ng-content>
-<ng-content></ng-content>
-<ng-content></ng-content>
-<ng-content *ngFor="let char of chartCompRefs"></ng-content>
-
-<div *ngFor="let char of chartList">
-    <ng-content></ng-content>
+<div>
+    <div #target></div>
+    <!-- here will be appended charts -->
 </div>
-
-<div *ngFor="let char of chartCompRefs">
-    <ng-content></ng-content>
-</div>
-<button (click)="addChart()">Change component</button>
+<div>------------------------------------------------------------</div>
+<button (click)="addChart()">Add Chart</button>
