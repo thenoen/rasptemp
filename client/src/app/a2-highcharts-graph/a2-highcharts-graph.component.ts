@@ -6,7 +6,7 @@ import {Temperature} from '../model/temperature';
 @Component({
     selector: 'app-a2-highcharts-graph',
     templateUrl: './a2-highcharts-graph.component.html',
-    styleUrls: ['./a2-highcharts-graph.component.css']
+    styleUrls: ['./a2-highcharts-graph.component.scss']
 })
 export class A2HighchartsGraphComponent implements OnInit {
 

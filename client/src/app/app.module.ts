@@ -11,6 +11,8 @@ import { ChartModule } from 'angular2-highcharts';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import { ChartListComponent } from './chart-list/chart-list.component';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 declare var require: any;
 export function highchartsFactory() {
   return require('highcharts');
@@ -27,7 +29,8 @@ export function highchartsFactory() {
   ],
   imports: [
     BrowserModule,
-    ChartModule
+    ChartModule,
+    NgbModule.forRoot()
   ],
   providers: [GetTemperaturesService,
     {
