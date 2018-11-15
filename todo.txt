@@ -1,0 +1,2 @@
+- make scheduled actions configurable
+- cleanup all configurations
