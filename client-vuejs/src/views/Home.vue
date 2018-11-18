@@ -2,7 +2,7 @@
   <div class="home">
 
 	  <div class="text-primary">
-		  primary text
+		  primary text with overriden color (red)
 	  </div>
 
 	  <div class="alert alert-success alert-dismissible fade show" role="alert">

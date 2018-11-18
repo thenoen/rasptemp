@@ -6,6 +6,8 @@
     <div>
       {{ httpResponse }}
     </div>
+
+	  <b-alert show variant="secondary">Secondary Alert - bootstrap-vue</b-alert>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
