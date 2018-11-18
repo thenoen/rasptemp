@@ -45,12 +45,13 @@ public class StatisticsController {
 	@ResponseBody
 	public TemperatureRecord getLatestValue() {
 
-		TemperatureRecord firstOrOrderByDateMeasuredDesc = temperatureRecordRepository.findFirstByOrderByDateMeasuredDesc();
+//		TemperatureRecord firstOrOrderByDateMeasuredDesc = temperatureRecordRepository.findFirstByOrderByDateMeasuredDesc();
 		TemperatureRecord tr = new TemperatureRecord();
 		tr.setDateMeasured(new Date());
 		tr.setDegrees(25d);
 		tr.setId(1L);
-		return firstOrOrderByDateMeasuredDesc;
+		return tr;
+//		return firstOrOrderByDateMeasuredDesc;
 	}
 
 }
