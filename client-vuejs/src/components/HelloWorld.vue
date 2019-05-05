@@ -3,10 +3,10 @@
     <h1>{{ msg }}</h1>
 
     <button v-on:click="getHttpData()">make call</button>
+    <button v-on:click="clearHttpData()">clear</button>
     <div>
       {{ httpResponse }}
-    </div>
-
+    
 	  <b-alert show variant="secondary">Secondary Alert - bootstrap-vue</b-alert>
    
   </div>
@@ -15,6 +15,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import axios from 'axios';
+
 
 @Component({
   data() {
@@ -34,13 +35,13 @@ export default class HelloWorld extends Vue {
     .then((response) => {
       // JSON responses are automatically parsed.
       this.httpResponse = response.data;
+      this.$store.commit('SET_HTTP_DATA',response.data);
     })
     .catch((error) => this.httpResponse = error.response.data);
   }
 
-  private move() {
-    // this.$router
-    // this.$route
+  private clearHttpData() {
+      this.$store.commit('CLEAR_HTTP_DATA');
   }
 
 }
