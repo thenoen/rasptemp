@@ -9,7 +9,10 @@ import sk.thenoen.rasptemp.domain.TemperatureRecord;
 import sk.thenoen.rasptemp.repository.TemperatureRecordRepository;
 import sk.thenoen.rasptemp.temperature.TemperatureRecordLoadingService;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -28,20 +31,20 @@ public class StatisticsController {
 	@RequestMapping("/data")
 	public String index() {
 
-		long start =  System.currentTimeMillis();
+		long start = System.currentTimeMillis();
 		temperatureRecordLoadingService.loadRecordsFromFile(inputFilePath);
-		long end =  System.currentTimeMillis();
+		long end = System.currentTimeMillis();
 
 
 		String response = "Greetings from Spring Boot!";
 
 		response += " - nr of records: " + temperatureRecordRepository.findAll().size();
-		response += " (loaded in " + ((end - start)/1000.0) +" s)";
+		response += " (loaded in " + ((end - start) / 1000.0) + " s)";
 
 		return response;
 	}
 
-	@RequestMapping(value="/latestValue", method = GET, produces = "application/json")
+	@RequestMapping(value = "/latestValue", method = GET, produces = "application/json")
 	@ResponseBody
 	public TemperatureRecord getLatestValue() {
 
@@ -52,6 +55,17 @@ public class StatisticsController {
 		tr.setId(1L);
 		return tr;
 //		return firstOrOrderByDateMeasuredDesc;
+	}
+
+	@RequestMapping(value = "/lastPeriod", method = GET, produces = "application/json")
+	@ResponseBody
+	public List<TemperatureRecord> getDataDuringLastPeriod() {
+
+		LocalDateTime now = LocalDateTime.now();
+		Date oldestDate = new Date(now.minusHours(4).toEpochSecond(ZoneOffset.UTC) * 1000);
+		List<TemperatureRecord> measuredAfter = temperatureRecordRepository.findAllByDateMeasuredAfter(oldestDate);
+
+		return measuredAfter;
 	}
 
 }

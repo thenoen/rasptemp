@@ -36,13 +36,13 @@ public class TemperatureRecordLoadingService {
 	public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z YYYY";
 	public static final String DATE_FORMAT_ALTERNATIVE = "EEE dd MMM HH:mm:ss z YYYY";
 
-	@Value("${workers.number}")
+//	@Value("${workers.number}")
 	private int numberOfWorkers;
 
-	@Value("${threads.number}")
+//	@Value("${threads.number}")
 	private int numberOfThreads;
 
-	@Value("${temperatures.initialFolderPath}")
+//	@Value("${temperatures.initialFolderPath}")
 	private String initialFolderPath;
 
 	@Autowired
@@ -122,6 +122,11 @@ public class TemperatureRecordLoadingService {
 
 	public void loadFromSensorFile() {
 		BigDecimal temperatureValue = sensorReadingService.readTemperature();
+
+		if (temperatureValue == null) {
+			LOGGER.warn("Unable to load temperature");
+			return;
+		}
 
 		TemperatureRecord temperatureRecord = new TemperatureRecord();
 		temperatureRecord.setDateMeasured(new Date(DateTimeUtils.currentTimeMillis()));

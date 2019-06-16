@@ -15,7 +15,7 @@ public class LoadingScheduler {
 	@Autowired
 	private TemperatureRecordLoadingService temperatureRecordLoadingService;
 
-//	@Scheduled(cron = "*/60 * * * * *")
+	@Scheduled(cron = "*/60 * * * * *")
 	public void loadMeasurementsFromFile() {
 		temperatureRecordLoadingService.loadFromSensorFile();
 	}

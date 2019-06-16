@@ -18,7 +18,7 @@ public class SensorReadingService {
 	private static final Logger LOG = LoggerFactory.getLogger(SensorReadingService.class);
 	private static final int TEMPERATURE_SCALE = 3;
 
-	@Value("${temperature.sensorOutputPath}")
+	@Value("${temperature.sensorOutputPath:}")
 	private String sensorOutputPath;
 
 	private static final BigDecimal DIVISOR = new BigDecimal("1000");

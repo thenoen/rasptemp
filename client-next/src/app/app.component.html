@@ -1,0 +1,35 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    RaspTemp
+  </h1>
+</div>
+
+<div id="chart-wrapper">
+  <ngx-charts-line-chart
+    [scheme]="colorScheme"
+    [results]="multi"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [legendPosition]="legendPosition"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [autoScale]="autoScale"
+    [timeline]="timeline"
+    [curve]="curve"
+    (select)="onSelect($event)">
+
+    <ng-template #seriesTooltipTemplate let-model="model">
+      <div>{{model[0].name}}</div>
+      <div>{{model[0].value}}</div>
+    </ng-template>
+  </ngx-charts-line-chart>
+</div>
+
+<div id="controlPanel">
+  <button (click)="reloadData()">Reload</button>
+</div>

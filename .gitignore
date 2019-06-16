@@ -1,5 +1,11 @@
 **/*.iml
 **/*.idea
 **/target/**
+.classpath
+.project
 
 server/src/main/resources/static/**
+server/.classpath
+server/.project
+server/.settings/
+server/.vscode/
