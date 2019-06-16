@@ -44,11 +44,14 @@ public class StatisticsController {
 	@RequestMapping(value="/latestValue", method = GET, produces = "application/json")
 	@ResponseBody
 	public TemperatureRecord getLatestValue() {
+
+//		TemperatureRecord firstOrOrderByDateMeasuredDesc = temperatureRecordRepository.findFirstByOrderByDateMeasuredDesc();
 		TemperatureRecord tr = new TemperatureRecord();
 		tr.setDateMeasured(new Date());
 		tr.setDegrees(25d);
 		tr.setId(1L);
 		return tr;
+//		return firstOrOrderByDateMeasuredDesc;
 	}
 
 }

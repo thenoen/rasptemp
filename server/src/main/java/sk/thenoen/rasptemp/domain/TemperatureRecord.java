@@ -1,6 +1,5 @@
 package sk.thenoen.rasptemp.domain;
 
-import org.springframework.boot.orm.jpa.EntityScan;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

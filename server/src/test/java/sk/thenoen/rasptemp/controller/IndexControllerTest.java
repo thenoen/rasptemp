@@ -4,9 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcBuilderCustomizer;
+import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,7 +19,7 @@ import sk.thenoen.rasptemp.web.StatisticsController;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=RaspTempApplication.class, loader=SpringApplicationContextLoader.class)
+@ContextConfiguration(classes=RaspTempApplication.class, loader= SpringBootContextLoader.class)
 @TestPropertySource(locations="classpath:test.properties")
 @AutoConfigureMockMvc
 public class IndexControllerTest {
