@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import * as shape from 'd3-shape';
 import {GetTemperaturesService} from './service/get-temperatures-service';
 
@@ -7,10 +7,10 @@ import {GetTemperaturesService} from './service/get-temperatures-service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, AfterViewInit{
   title = 'client-next';
 
-  view: any[] = [700, 400];
+  view: any[] = [];
 
   // options
   showXAxis = true;
@@ -21,33 +21,63 @@ export class AppComponent {
   xAxisLabel = 'Date';
   showYAxisLabel = true;
   yAxisLabel = 'Temperature';
-  timeline = true;
+  timeline = false;
   autoScale = true;
   curve = shape.curveBasis;
   legendPosition = "below";
 
   colorScheme = {
-    domain: ['#144aad']
+    domain: ['#144aad','#03ff8e']
   };
 
-  multi: any[] = [
+  data4h: any[] = [
     {
-      name: 'Temperatures',
+      name: 'Temperatures - 4h',
       series: []
     }
   ];
 
-  constructor(public temperaturesService: GetTemperaturesService) {
+  data12h: any[] = [
+    {
+      name: 'Temperatures - 12h',
+      series: []
+    }
+  ];
+
+  @ViewChild('xxx',{static: false})
+  private xxx: ElementRef;
+
+  constructor(private temperaturesService: GetTemperaturesService,
+              private el:ElementRef) {
+
+
   }
 
-  public reloadData() {
-    this.temperaturesService.getTemperatures3()
-      .then(data => this.multi = [{name: "Temperature", series: data}]);
-    console.log(this.multi);
+  ngOnInit(): void {
+    // this.view[0] = this.xxx.nativeElement.offsetHeight;
+  }
+
+  ngAfterViewInit(): void {
+    console.log("ngAfterViewInit");
+    this.view[0] = this.xxx.nativeElement.offsetWidth;
+    this.view[1] = this.xxx.nativeElement.offsetHeight;
+    console.log(this.view);
+  }
+
+
+  public reload4HoursData() {
+    this.temperaturesService.getTemperatures3(4)
+      .then(data => this.data4h[0].series = data)
+      .then(() => this.data4h = [...this.data4h]);
+  }
+
+  public reload12HoursData() {
+    this.temperaturesService.getTemperatures3(12)
+      .then(data => this.data12h[0].series = data)
+      .then(() => this.data12h = [...this.data12h]);
   }
 
   public onSelect(data: any) {
     console.log(data);
   }
-
 }
