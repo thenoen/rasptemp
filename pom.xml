@@ -10,6 +10,7 @@
   <name>RaspTemp</name>
   
    <modules>
+        <module>client-next</module>
         <module>server</module>
     </modules>
  
