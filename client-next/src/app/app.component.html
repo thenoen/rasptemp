@@ -1,77 +1,26 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
-    RaspTemp
+    {{title}}
   </h1>
 </div>
 
-<div id="chart-wrapper">
-
-</div>
-
 <div class="container">
-  <div class="row h-25">
-    <div class="col-10" #xxx>
-      <ngx-charts-line-chart
-        [view]="view"
-        [scheme]="colorScheme"
-        [results]="data4h"
-        [gradient]="gradient"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [legend]="showLegend"
-        [legendPosition]="legendPosition"
-        [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel"
-        [autoScale]="autoScale"
-        [timeline]="timeline"
-        [curve]="curve"
-        (select)="onSelect($event)">
-
-        <ng-template #seriesTooltipTemplate let-model="model">
-          <div>{{model[0].name}}</div>
-          <div>{{model[0].value}}</div>
-        </ng-template>
-      </ngx-charts-line-chart>
-    </div>
-    <div class="col-2">
-      <div class="d-flex h-100">
-        <button class="btn btn-primary justify-content-center align-self-center align-middle m-auto" (click)="reload4HoursData()">Reload</button>
-      </div>
-    </div>
+  <div class="container m-3">
+    <app-tempgraph class="m-3"
+                   [hours]="4"
+                   [groupSize]="1">
+    </app-tempgraph>
   </div>
-  <div class="row h-25">
-    <div class="col-10" #xxx>
-      <ngx-charts-line-chart
-        [view]="view"
-        [scheme]="colorScheme"
-        [results]="data12h"
-        [gradient]="gradient"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [legend]="showLegend"
-        [legendPosition]="legendPosition"
-        [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel"
-        [autoScale]="autoScale"
-        [timeline]="timeline"
-        [curve]="curve"
-        (select)="onSelect($event)">
-
-        <ng-template #seriesTooltipTemplate let-model="model">
-          <div>{{model[0].name}}</div>
-          <div>{{model[0].value}}</div>
-        </ng-template>
-      </ngx-charts-line-chart>
-    </div>
-    <div class="col-2">
-      <div class="d-flex h-100">
-        <button class="btn btn-primary justify-content-center align-self-center align-middle m-auto" (click)="reload12HoursData()">Reload</button>
-      </div>
-    </div>
+  <div class="container m-3">
+    <app-tempgraph class="m-3"
+                   [hours]="12"
+                   [groupSize]="5">
+    </app-tempgraph>
+  </div>
+  <div class="container m-3">
+    <app-tempgraph class="m-3"
+                   [hours]="48"
+                   [groupSize]="10">
+    </app-tempgraph>
   </div>
 </div>

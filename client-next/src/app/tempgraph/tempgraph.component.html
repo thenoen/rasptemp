@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="col-10" #xxx>
+      <ngx-charts-line-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="data"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [legendPosition]="legendPosition"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [autoScale]="autoScale"
+        [timeline]="timeline"
+        [curve]="curve"
+        (select)="onSelect($event)">
+
+        <ng-template #seriesTooltipTemplate let-model="model">
+          <div>{{model[0].name}}</div>
+          <div>{{model[0].value}}</div>
+        </ng-template>
+      </ngx-charts-line-chart>
+    </div>
+    <div class="col-2 d-flex flex-column ">
+      <div class="d-flex flex-column h-50 m-auto align-middle justify-content-center align-self-center">
+        <div class="d-flex flex-column justify-content-end align-self-baseline align-bottom m-auto">
+          <div class="text-center">NOW:</div>
+          <div class="font-weight-bolder text-center">{{currentTemperature}} &deg;C</div>
+        </div>
+        <button class="btn btn-primary justify-content-center align-self-center align-middle m-auto" (click)="reloadData()">Reload</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -37,7 +37,6 @@ public class StatisticsController {
 
 	@RequestMapping("/data")
 	public String index() {
-
 		long start = System.currentTimeMillis();
 		temperatureRecordLoadingService.loadRecordsFromFile(inputFilePath);
 		long end = System.currentTimeMillis();
@@ -54,26 +53,19 @@ public class StatisticsController {
 	@RequestMapping(value = "/latestValue", method = GET, produces = "application/json")
 	@ResponseBody
 	public TemperatureRecord getLatestValue() {
-
-//		TemperatureRecord firstOrOrderByDateMeasuredDesc = temperatureRecordRepository.findFirstByOrderByDateMeasuredDesc();
-		TemperatureRecord tr = new TemperatureRecord();
-		tr.setDateMeasured(new Date());
-		tr.setDegrees(25d);
-		tr.setId(1L);
-		return tr;
-//		return firstOrOrderByDateMeasuredDesc;
+		return temperatureRecordRepository.findFirstByOrderByDateMeasuredDesc();
 	}
 
-	@RequestMapping(value = "/lastHours/{hours}", method = GET, produces = "application/json")
+	@RequestMapping(value = "/lastHours/{hours}/{groupSize}", method = GET, produces = "application/json")
 	@ResponseBody
-	public List<TemperatureRecord> getDataDuringLastPeriod(@PathVariable("hours") int hours) {
+	public List<TemperatureRecord> getDataDuringLastPeriod(@PathVariable("hours") int hours,
+	                                                       @PathVariable("groupSize") int groupSize) {
 
 		LocalDateTime now = LocalDateTime.now();
 		Date oldestDate = new Date(now.minusHours(hours).toEpochSecond(ZoneOffset.UTC) * 1000);
 		List<TemperatureRecord> measuredAfter = temperatureRecordRepository.findAllByDateMeasuredAfter(oldestDate);
 
 		if (measuredAfter.size() > MAX_MEASUREMENTS_FOR_DISPLAY) {
-			int groupSize = measuredAfter.size() / MAX_MEASUREMENTS_FOR_DISPLAY;
 			int mod = measuredAfter.size() % groupSize;
 
 			ArrayList<TemperatureRecord> averageTemperatures = new ArrayList<>();
@@ -97,7 +89,7 @@ public class StatisticsController {
 
 		Double averageTemperature = sumTemperature / temperatureRecords.size();
 		TemperatureRecord average = new TemperatureRecord();
-		average.setDateMeasured(temperatureRecords.get(0).getDateMeasured());
+		average.setDateMeasured(temperatureRecords.get(temperatureRecords.size()/2).getDateMeasured());
 		BigDecimal bigDecimal = BigDecimal.valueOf(averageTemperature);
 		BigDecimal round = bigDecimal.round(MATH_CONTEXT);
 		average.setDegrees(round.doubleValue());

@@ -7,9 +7,14 @@ export class GetTemperaturesService {
   constructor(private http: HttpClient) {
   }
 
-  getTemperatures3(hours: number): Promise<any[]> {
-    return this.http.get("/lastHours/" + hours).toPromise()
+  getTemperatures(hours: number, groupSize: number): Promise<any[]> {
+    return this.http.get("/lastHours/" + hours + "/" + groupSize).toPromise()
       .then(data => this.transform(data))
+  }
+
+  getLastTemperature() {
+    return this.http.get("/latestValue").toPromise()
+      .then(data => data["degrees"])
   }
 
   private transform(data: any): any[] {

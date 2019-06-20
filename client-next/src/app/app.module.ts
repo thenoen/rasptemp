@@ -7,10 +7,12 @@ import {AppComponent} from './app.component';
 import {GetTemperaturesService} from './service/get-temperatures-service';
 
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {TempgraphComponent} from './tempgraph/tempgraph.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TempgraphComponent
   ],
   imports: [
     BrowserModule,
