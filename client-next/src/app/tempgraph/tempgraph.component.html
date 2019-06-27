@@ -20,9 +20,15 @@
         (select)="onSelect($event)">
 
         <ng-template #seriesTooltipTemplate let-model="model">
-          <div>{{model[0].name}}</div>
+          <div>{{model[0].name.toLocaleString()}}</div>
           <div>{{model[0].value}}</div>
         </ng-template>
+
+        <ng-template #tooltipTemplate let-model="model">
+          <div>{{model[0].name.toLocaleString()}}</div>
+          <div>{{model[0].value}}</div>
+        </ng-template>
+
       </ngx-charts-line-chart>
     </div>
     <div class="col-2 d-flex flex-column ">
