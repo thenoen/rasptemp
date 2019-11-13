@@ -32,7 +32,7 @@
 		<maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
 		<spring-cloud-starter-parent.version>Brixton.RELEASE</spring-cloud-starter-parent.version>
 		<platform-bom.version>2.0.5.RELEASE</platform-bom.version>
-		<jackson.version>2.9.7</jackson.version>
+		<jackson.version>2.10.1</jackson.version>
 	</properties>
 
 	<dependencies>
