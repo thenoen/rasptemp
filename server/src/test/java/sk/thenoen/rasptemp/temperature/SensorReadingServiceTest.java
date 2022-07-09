@@ -1,20 +1,17 @@
 package sk.thenoen.rasptemp.temperature;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import sk.thenoen.rasptemp.RaspTempApplication;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = RaspTempApplication.class)
 @TestPropertySource(locations = "classpath:test.properties")
 @Transactional
@@ -30,7 +27,7 @@ public class SensorReadingServiceTest {
 
 		BigDecimal temperatureValue = sensorReadingService.readTemperature();
 
-		Assert.assertEquals(new BigDecimal("24.812"), temperatureValue);
+		Assertions.assertEquals(new BigDecimal("24.812"), temperatureValue);
 	}
 
 	@Test
@@ -40,7 +37,7 @@ public class SensorReadingServiceTest {
 
 		BigDecimal temperatureValue = sensorReadingService.readTemperature();
 
-		Assert.assertEquals(null, temperatureValue);
+		Assertions.assertEquals(null, temperatureValue);
 	}
 
 	@Test
@@ -50,7 +47,7 @@ public class SensorReadingServiceTest {
 
 		BigDecimal temperatureValue = sensorReadingService.readTemperature();
 
-		Assert.assertEquals(null, temperatureValue);
+		Assertions.assertEquals(null, temperatureValue);
 	}
 
 	@Test
@@ -59,6 +56,6 @@ public class SensorReadingServiceTest {
 
 		BigDecimal temperatureValue = sensorReadingService.readTemperature();
 
-		Assert.assertEquals(null, temperatureValue);
+		Assertions.assertEquals(null, temperatureValue);
 	}
 }

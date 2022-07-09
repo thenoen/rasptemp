@@ -1,14 +1,12 @@
 package sk.thenoen.rasptemp.controller;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -18,8 +16,7 @@ import sk.thenoen.rasptemp.temperature.TemperatureRecordLoadingService;
 import sk.thenoen.rasptemp.web.StatisticsController;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=RaspTempApplication.class, loader= SpringBootContextLoader.class)
+@SpringBootTest(classes = RaspTempApplication.class)
 @TestPropertySource(locations="classpath:test.properties")
 @AutoConfigureMockMvc
 public class IndexControllerTest {
@@ -32,10 +29,15 @@ public class IndexControllerTest {
 	@Autowired
 	private TemperatureRecordLoadingService temperatureRecordLoadingService;
 
-	@Test
+		@Test
 	public void exampleTest() throws Exception {
-		mvc = MockMvcBuilders.standaloneSetup(new StatisticsController()).build();
+		ClassPathResource classPathResource = new ClassPathResource("temperatures/temp-log.txt");
+		temperatureRecordLoadingService.setInitialFolderPath(classPathResource.getFile().getParent());
+		temperatureRecordLoadingService.loadInitialRecordsFromFolder();
+
+		mvc = MockMvcBuilders.standaloneSetup(statisticsController).build();
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/latestValue")).andReturn();
-		Assert.assertTrue(mvcResult.getResponse().getContentAsString().startsWith("{\"id\":1,\"degrees\":25.0,\"dateMeasured\":"));
+		final String jsonResponse = mvcResult.getResponse().getContentAsString();
+		Assertions.assertTrue(jsonResponse.matches("\\{\"id\":\\d+,\"degrees\":27.625,\"dateMeasured\":1483488010000\\}"));
 	}
 }

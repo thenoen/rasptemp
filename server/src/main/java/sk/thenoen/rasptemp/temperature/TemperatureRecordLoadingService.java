@@ -9,11 +9,7 @@ import org.springframework.stereotype.Service;
 import sk.thenoen.rasptemp.domain.TemperatureRecord;
 import sk.thenoen.rasptemp.repository.TemperatureRecordRepository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -39,7 +35,7 @@ public class TemperatureRecordLoadingService {
 //	@Value("${workers.number}")
 	private int numberOfWorkers;
 
-//	@Value("${threads.number}")
+	@Value("${threads.number:1}")
 	private int numberOfThreads;
 
 //	@Value("${temperatures.initialFolderPath}")

@@ -1,19 +1,16 @@
 package sk.thenoen.rasptemp.repository;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import sk.thenoen.rasptemp.RaspTempApplication;
 import sk.thenoen.rasptemp.domain.TemperatureRecord;
 
 import javax.transaction.Transactional;
 import java.util.Date;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = RaspTempApplication.class)
 @TestPropertySource(locations="classpath:test.properties")
 @Transactional
@@ -33,9 +30,9 @@ public class TemperatureRecordRepositoryTest {
 
 		temperatureRecord = temperatureRecordRepository.save(temperatureRecord);
 
-		Assert.assertNotNull(temperatureRecord.getId());
-		Assert.assertEquals(testDegrees, temperatureRecord.getDegrees());
-		Assert.assertEquals(testDate, temperatureRecord.getDateMeasured());
+		Assertions.assertNotNull(temperatureRecord.getId());
+		Assertions.assertEquals(testDegrees, temperatureRecord.getDegrees());
+		Assertions.assertEquals(testDate, temperatureRecord.getDateMeasured());
 	}
 
 }
