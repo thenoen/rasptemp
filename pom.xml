@@ -10,7 +10,8 @@
   <name>RaspTemp</name>
   
    <modules>
-        <module>client-next</module>
+<!--        <module>client-next</module> disabled in favour of client-v1 -->
+        <module>client-v1</module>
         <module>server</module>
     </modules>
  

@@ -9,3 +9,5 @@ server/.classpath
 server/.project
 server/.settings/
 server/.vscode/
+/client-v1/rasptemp-client-v1/node/yarn/dist/
+/client-v1/rasptemp-client-v1/node/
