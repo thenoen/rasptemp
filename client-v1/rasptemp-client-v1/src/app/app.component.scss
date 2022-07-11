@@ -1,0 +1,38 @@
+.parent {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(650px, 1fr));
+}
+
+.box {
+  //position: relative;
+  font-size: 2rem;
+  padding: 1rem;
+  display: grid;
+  place-items: center;
+  border-radius: 1rem;
+  overflow: visible;
+}
+
+app-temperature-chart {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.pink {
+  background-color: pink;
+}
+
+.purple {
+  background-color: mediumpurple;
+}
+
+.blue {
+  background-color: lightblue;
+}
+
+.green {
+  background-color: lightgreen;
+}
