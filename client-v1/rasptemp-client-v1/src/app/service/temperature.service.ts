@@ -25,7 +25,7 @@ export class TemperatureService {
     for (let entry of data) {
       result.push({name: new Date(entry["dateMeasured"]), value: entry["degrees"]})
     }
-    console.log(result);
+    // console.log(result);
     return result;
   }
 }

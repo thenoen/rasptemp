@@ -2,7 +2,7 @@
   <header>
     <div id="left-header">RaspTemp</div>
     <div id="middle-header">
-      {{this.latestValue}}
+      {{this.latestValue}} ℃
     </div>
     <div id="right-header">
       <button (click)="this.getLatestValue()">Refresh</button>
@@ -12,10 +12,13 @@
 
   <div class="parent white">
     <div class="box pink">
-      <app-temperature-chart></app-temperature-chart>
+      <app-temperature-chart [hoursRange]="1" [groupSize]="1"></app-temperature-chart>
     </div>
-    <div class="box purple">2</div>
-    <div class="box blue">3</div>
-    <div class="box green">4</div>
+    <div class="box purple">
+      <app-temperature-chart [hoursRange]="12" [groupSize]="5"></app-temperature-chart></div>
+    <div class="box blue">
+      <app-temperature-chart [hoursRange]="48" [groupSize]="10"></app-temperature-chart></div>
+    <div class="box green">
+      <app-temperature-chart [hoursRange]="168" [groupSize]="50" ></app-temperature-chart></div>
   </div>
 </div>

@@ -12,11 +12,14 @@
     [xAxisLabel]="xAxisLabel"
     [yAxisLabel]="yAxisLabel"
     [timeline]="timeline"
-    [results]="multi"
+    [results]="data"
+    [yScaleMin]="rangeBottom"
+    [yScaleMax]="rangeTop"
+    [curve]="curve"
     (select)="onSelect($event)"
     (activate)="onActivate($event)"
     (deactivate)="onDeactivate($event)"
   >
   </ngx-charts-line-chart>
-  <button (click)="loadData()">Load Data</button>
+<!--  <button (click)="loadData()">Load Data</button>-->
 </div>
