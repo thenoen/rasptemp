@@ -6,4 +6,4 @@ SYSTEM_PROPERTIES="
 -XX:MaxMetaspaceSize=50m
 -XX:CompressedClassSpaceSize=1m"
 
-java ${SYSTEM_PROPERTIES} -jar ../target/RaspTemp-Server-0.1-SNAPSHOT.jar --spring.config.location=configurations/
+java ${SYSTEM_PROPERTIES} -jar ../target/RaspTemp-Server-0.1-SNAPSHOT.jar --spring.config.location=application.properties
