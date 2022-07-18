@@ -1,14 +1,21 @@
-<h1>hello world</h1>
-<div>
-  {{this.latestValue}}
-</div>
-<button (click)="this.getLatestValue()">Latest Value</button>
+<div id="root">
+  <header>
+    <div id="left-header">RaspTemp</div>
+    <div id="middle-header">
+      {{this.latestValue}}
+    </div>
+    <div id="right-header">
+      <button (click)="this.getLatestValue()">Refresh</button>
+    </div>
 
-<div class="parent white">
-  <div class="box pink">
-    <app-temperature-chart></app-temperature-chart>
+  </header>
+
+  <div class="parent white">
+    <div class="box pink">
+      <app-temperature-chart></app-temperature-chart>
+    </div>
+    <div class="box purple">2</div>
+    <div class="box blue">3</div>
+    <div class="box green">4</div>
   </div>
-  <div class="box purple">2</div>
-  <div class="box blue">3</div>
-  <div class="box green">4</div>
 </div>

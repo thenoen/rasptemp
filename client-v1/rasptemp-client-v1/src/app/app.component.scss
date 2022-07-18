@@ -1,13 +1,47 @@
+#root {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+header {
+  border-radius: 1rem;
+  background-color: #eeeeee;
+  padding: 1em;
+  margin: 0.5em;
+  display: grid;
+  grid-template: auto auto auto/ auto;
+}
+
+#left-header {
+ grid-column: 1;
+}
+
+#middle-header {
+  grid-column: 2;
+  align-content: center;
+  display: grid;
+  place-items: center;
+}
+
+#right-header {
+  grid-column: 3;
+  align-content: end;
+  display: grid;
+  place-items: end;
+}
+
 .parent {
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(650px, 1fr));
+  padding: 0.5em;
 }
 
 .box {
   //position: relative;
   font-size: 2rem;
   padding: 1rem;
+  //margin: 0.5em;
   display: grid;
   place-items: center;
   border-radius: 1rem;
