@@ -1,6 +1,7 @@
 package sk.thenoen.rasptemp.temperature;
 
 import org.joda.time.DateTimeUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -22,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = RaspTempApplication.class)
 @TestPropertySource(locations = "classpath:test.properties")
-@Transactional
 public class TemperatureRecordLoadingServiceTest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TemperatureRecordLoadingServiceTest.class);
@@ -37,6 +37,11 @@ public class TemperatureRecordLoadingServiceTest {
 
 	@Autowired
 	private TemperatureRecordRepository temperatureRecordRepository;
+
+	@AfterEach
+	public void cleanup() {
+		temperatureRecordRepository.deleteAll();
+	}
 
 	@Test
 	public void verifyCorrectLoadingOfTemperatures() throws IOException {
