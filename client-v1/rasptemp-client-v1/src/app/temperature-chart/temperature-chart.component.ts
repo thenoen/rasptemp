@@ -30,8 +30,8 @@ export class TemperatureChartComponent {
   yAxis: boolean = true;
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
-  xAxisLabel: string = '';
-  yAxisLabel: string = '';
+  xAxisLabel: string = 'x-label';
+  yAxisLabel: string = 'y-label';
   timeline: boolean = false;
   rangeBottom: number = -100;
   rangeTop: number = 100;
@@ -71,11 +71,11 @@ export class TemperatureChartComponent {
   private readonly minimalRange = 1;
 
   private findMinMax(): void {
-    console.log("data:");
-    console.log(this.data[0].series);
+    // console.log("data:");
+    // console.log(this.data[0].series);
     let min: number = Number.MAX_VALUE;
     this.data[0].series.forEach((d: any) => {
-      console.log(d.value);
+      // console.log(d.value);
       if (d.value < min) {
         min = d.value;
       }
@@ -83,7 +83,7 @@ export class TemperatureChartComponent {
 
     let max: number = Number.MIN_VALUE;
     this.data[0].series.forEach((d: any) => {
-      console.log(d.value);
+      // console.log(d.value);
       if (d.value > max) {
         max = d.value;
       }
@@ -96,6 +96,10 @@ export class TemperatureChartComponent {
     }
     this.rangeBottom = min;
     this.rangeTop = max;
+  }
+
+  ngOnInit() {
+    this.xAxisLabel = `Last ${ this.hoursRange } hours`;
   }
 
   ngAfterContentInit() {
