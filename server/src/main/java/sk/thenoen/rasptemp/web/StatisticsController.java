@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import sk.thenoen.rasptemp.domain.TemperatureRecord;
-import sk.thenoen.rasptemp.repository.TemperatureRecordRepository;
-import sk.thenoen.rasptemp.temperature.TemperatureRecordLoadingService;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -17,7 +14,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import sk.thenoen.rasptemp.domain.TemperatureRecord;
+import sk.thenoen.rasptemp.repository.TemperatureRecordRepository;
+import sk.thenoen.rasptemp.temperature.TemperatureRecordLoadingService;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -77,6 +80,8 @@ public class StatisticsController {
 			}
 			return averageTemperatures;
 		}
+
+		Map<String, Object> response = new HashMap<>();
 
 		return measuredAfter;
 	}

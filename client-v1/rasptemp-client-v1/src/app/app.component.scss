@@ -1,6 +1,7 @@
 #root {
   display: grid;
   grid-template-rows: auto 1fr auto;
+  font-family: sans-serif;
 }
 
 header {
@@ -14,6 +15,10 @@ header {
 
 #left-header {
  grid-column: 1;
+  align-content: center;
+  display: grid;
+  place-items: start;
+  font-size: 1.5em;
 }
 
 #middle-header {
@@ -21,6 +26,7 @@ header {
   align-content: center;
   display: grid;
   place-items: center;
+  font-size: 1.5em;
 }
 
 #right-header {
@@ -28,6 +34,10 @@ header {
   align-content: end;
   display: grid;
   place-items: end;
+}
+
+#right-header button {
+  margin-right: 1em;
 }
 
 .parent {

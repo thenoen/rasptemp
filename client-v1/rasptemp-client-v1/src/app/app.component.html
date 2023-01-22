@@ -5,7 +5,9 @@
       {{this.latestValue}} ℃
     </div>
     <div id="right-header">
-      <button (click)="this.getLatestValue()">Refresh</button>
+      <button mat-mini-fab color="primary" (click)="this.getLatestValue()">
+        <mat-icon>refresh</mat-icon>
+      </button>
     </div>
 
   </header>
@@ -15,10 +17,16 @@
       <app-temperature-chart [hoursRange]="4" [groupSize]="1"></app-temperature-chart>
     </div>
     <div class="box purple">
-      <app-temperature-chart [hoursRange]="12" [groupSize]="5"></app-temperature-chart></div>
+      <app-temperature-chart [hoursRange]="12" [groupSize]="5"></app-temperature-chart>
+    </div>
     <div class="box blue">
-      <app-temperature-chart [hoursRange]="48" [groupSize]="10"></app-temperature-chart></div>
+      <app-temperature-chart [hoursRange]="48" [groupSize]="10"></app-temperature-chart>
+    </div>
     <div class="box green">
-      <app-temperature-chart [hoursRange]="168" [groupSize]="50" ></app-temperature-chart></div>
+      <app-temperature-chart [hoursRange]="168" [groupSize]="50"></app-temperature-chart>
+    </div>
+    <div class="box green">
+      <app-temperature-chart [hoursRange]="168" [groupSize]="50"></app-temperature-chart>
+    </div>
   </div>
 </div>

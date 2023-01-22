@@ -2,3 +2,18 @@
   //border: red solid 1px;
   aspect-ratio: 16 / 9;
 }
+
+
+#x-label {
+  border-radius: 0.5rem;
+  background-color: #dddddd;
+  display: grid;
+  margin-top: 0.5em;
+  padding: 0.2em;
+  font-size: 0.7em;
+}
+
+#x-label span {
+  display: flex;
+  justify-content: center;
+}

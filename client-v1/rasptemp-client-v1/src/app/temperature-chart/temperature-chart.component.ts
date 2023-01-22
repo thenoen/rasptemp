@@ -1,8 +1,8 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {Color, ScaleType} from "@swimlane/ngx-charts";
-import {EventService} from "../service/event.service";
-import {TemperatureService} from "../service/temperature.service";
-import {curveCatmullRom} from "d3-shape";
+import {Color, ScaleType} from '@swimlane/ngx-charts';
+import {EventService} from '../service/event.service';
+import {TemperatureService} from '../service/temperature.service';
+import {curveCatmullRom} from 'd3-shape';
 
 @Component({
   selector: 'app-temperature-chart',
@@ -29,9 +29,9 @@ export class TemperatureChartComponent {
   xAxis: boolean = true;
   yAxis: boolean = true;
   showYAxisLabel: boolean = true;
-  showXAxisLabel: boolean = true;
+  showXAxisLabel: boolean = false;
   xAxisLabel: string = 'x-label';
-  yAxisLabel: string = 'y-label';
+  yAxisLabel: string = '℃';
   timeline: boolean = false;
   rangeBottom: number = -100;
   rangeTop: number = 100;
