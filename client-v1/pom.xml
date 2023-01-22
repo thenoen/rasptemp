@@ -1,166 +1,170 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>RaspTemp</artifactId>
-        <groupId>sk.thenoen.rasptemp</groupId>
-        <version>0.1-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>RaspTemp</artifactId>
+		<groupId>sk.thenoen.rasptemp</groupId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
 
-    <artifactId>RaspTemp-Client-v1</artifactId>
-    <name>RaspTemp-Client-v1</name>
+	<artifactId>RaspTemp-Client-v1</artifactId>
+	<name>RaspTemp-Client-v1</name>
 
-    <properties>
-        <frontend-maven-plugin-version>1.12.1</frontend-maven-plugin-version>
-        <working.dir>rasptemp-client-v1</working.dir>
-    </properties>
+	<properties>
+		<frontend-maven-plugin-version>1.12.1</frontend-maven-plugin-version>
+		<working.dir>rasptemp-client-v1</working.dir>
+	</properties>
 
-    <dependencies>
-    </dependencies>
+	<dependencies>
+	</dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>${frontend-maven-plugin-version}</version>
-                <configuration>
-                    <workingDirectory>${working.dir}</workingDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>install node and yarn</id>
-                        <goals>
-                            <goal>install-node-and-yarn</goal>
-                        </goals>
-                        <configuration>
-                            <nodeVersion>v16.16.0</nodeVersion>
-                            <yarnVersion>v1.22.19</yarnVersion>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>yarn install</id>
-                        <goals>
-                            <goal>yarn</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.bsc.maven</groupId>-->
-<!--                <artifactId>maven-processor-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <outputDirectory>target/generated-sources/src</outputDirectory>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>process</id>-->
-<!--                        <goals>-->
-<!--                            <goal>process</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>generate-sources</phase>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-        </plugins>
-    </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>${frontend-maven-plugin-version}</version>
+				<configuration>
+					<workingDirectory>${working.dir}</workingDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install node and yarn</id>
+						<goals>
+							<goal>install-node-and-yarn</goal>
+						</goals>
+						<configuration>
+							<nodeVersion>v18.13.0</nodeVersion>
+							<yarnVersion>v1.22.19</yarnVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>yarn install</id>
+						<goals>
+							<goal>yarn</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--            <plugin>-->
+			<!--                <groupId>org.bsc.maven</groupId>-->
+			<!--                <artifactId>maven-processor-plugin</artifactId>-->
+			<!--                <configuration>-->
+			<!--                    <outputDirectory>target/generated-sources/src</outputDirectory>-->
+			<!--                </configuration>-->
+			<!--                <executions>-->
+			<!--                    <execution>-->
+			<!--                        <id>process</id>-->
+			<!--                        <goals>-->
+			<!--                            <goal>process</goal>-->
+			<!--                        </goals>-->
+			<!--                        <phase>generate-sources</phase>-->
+			<!--                    </execution>-->
+			<!--                </executions>-->
+			<!--            </plugin>-->
+		</plugins>
+	</build>
 
-    <profiles>
-        <profile>
-            <id>angular-tests</id>
-            <activation>
-                <property>
-                    <name>skipTests</name>
-                    <value>false</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <version>${frontend-maven-plugin-version}</version>
-                        <configuration>
-                            <workingDirectory>${working.dir}</workingDirectory>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>frontend tests</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <configuration>
-                                    <arguments>run test</arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>build-prod</id>
-            <activation>
-                <property>
-                    <name>!addWidgetSourceMaps</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <version>${frontend-maven-plugin-version}</version>
-                        <configuration>
-                            <workingDirectory>${working.dir}</workingDirectory>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>frontend build</id>
-                                <goals>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <configuration>
-                                    <arguments>run build</arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>build-prod-with-source-maps</id>
-            <activation>
-                <property>
-                    <name>addWidgetSourceMaps</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <version>${frontend-maven-plugin-version}</version>
-                        <configuration>
-                            <workingDirectory>${working.dir}</workingDirectory>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>Generate Angular widget source maps</id>
-                                <goals>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <configuration>
-                                    <arguments>run build:sourcemaps</arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+	<profiles>
+		<profile>
+			<id>angular-tests</id>
+			<activation>
+				<property>
+					<name>skipTests</name>
+					<value>false</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>${frontend-maven-plugin-version}</version>
+						<configuration>
+							<workingDirectory>${working.dir}</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>frontend tests</id>
+								<phase>test</phase>
+								<goals>
+									<goal>yarn</goal>
+								</goals>
+								<configuration>
+									<arguments>run test</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>build-prod</id>
+			<activation>
+				<property>
+					<name>!addWidgetSourceMaps</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>${frontend-maven-plugin-version}</version>
+						<configuration>
+							<workingDirectory>${working.dir}</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>frontend build</id>
+								<goals>
+									<goal>yarn</goal>
+								</goals>
+								<configuration>
+									<environmentVariables>
+										<NODE_OPTIONS>--max_old_space_size=600</NODE_OPTIONS>
+									</environmentVariables>
+									<arguments>run build</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>build-prod-with-source-maps</id>
+			<activation>
+				<property>
+					<name>addWidgetSourceMaps</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>${frontend-maven-plugin-version}</version>
+						<configuration>
+							<workingDirectory>${working.dir}</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>Generate Angular widget source maps</id>
+								<goals>
+									<goal>yarn</goal>
+								</goals>
+								<configuration>
+									<arguments>run build:sourcemaps</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
