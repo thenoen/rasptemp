@@ -124,7 +124,8 @@
 								</goals>
 								<configuration>
 									<environmentVariables>
-										<NODE_OPTIONS>--max_old_space_size=600</NODE_OPTIONS>
+										<!-- This is needed for build on raspberry-->
+										<NODE_OPTIONS>--max_old_space_size=300</NODE_OPTIONS>
 									</environmentVariables>
 									<arguments>run build</arguments>
 								</configuration>
