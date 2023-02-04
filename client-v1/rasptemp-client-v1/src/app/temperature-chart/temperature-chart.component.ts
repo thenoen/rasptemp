@@ -68,7 +68,7 @@ export class TemperatureChartComponent {
     });
   }
 
-  private readonly minimalRange = 1;
+  private readonly minimalRange = 3;
 
   private findMinMax(): void {
     // console.log("data:");
