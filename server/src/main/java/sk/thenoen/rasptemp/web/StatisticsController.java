@@ -101,4 +101,15 @@ public class StatisticsController {
 		return average;
 	}
 
+	// GET method for finding records between two dates
+	@RequestMapping(value = "/between/{from}/{to}", method = GET, produces = "application/json")
+	@ResponseBody
+	public List<TemperatureRecord> getDataBetween(@PathVariable("from") long from,
+	                                               @PathVariable("to") long to) {
+		Date fromDate = new Date(from);
+		Date toDate = new Date(to);
+		return temperatureRecordRepository.findAllByDateMeasuredBetween(fromDate, toDate);
+	}
+
+
 }

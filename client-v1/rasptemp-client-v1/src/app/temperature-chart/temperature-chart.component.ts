@@ -59,6 +59,7 @@ export class TemperatureChartComponent {
           .then(data => this.data[0].series = data)
           .then(() => this.data = [...this.data])
           .then(() => this.findMinMax())
+          .catch(error => console.log("error: " + error));
         // console.log(this.data);
         // this.findMinMax();
         this.onResize(undefined);

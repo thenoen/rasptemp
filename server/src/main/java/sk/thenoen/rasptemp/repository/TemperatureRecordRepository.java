@@ -1,10 +1,11 @@
 package sk.thenoen.rasptemp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import sk.thenoen.rasptemp.domain.TemperatureRecord;
 
 import java.util.Date;
 import java.util.List;
+
+import sk.thenoen.rasptemp.domain.TemperatureRecord;
 
 public interface TemperatureRecordRepository extends JpaRepository<TemperatureRecord, Long> {
 
@@ -14,5 +15,8 @@ public interface TemperatureRecordRepository extends JpaRepository<TemperatureRe
 
 //	TemperatureRecord findFirstByOrderByLastnameAsc();
 	TemperatureRecord findFirstByOrderByDateMeasuredDesc();
+
+	// method to find records between two dates
+	List<TemperatureRecord> findAllByDateMeasuredBetween(Date startDate, Date endDate);
 
 }
