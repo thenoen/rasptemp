@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+	    "verbose": false,
             "outputPath": "dist/rasptemp-client-v1",
             "index": "src/index.html",
             "main": "src/main.ts",
