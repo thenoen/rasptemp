@@ -41,15 +41,15 @@ export class TemperatureChartComponent {
     name: 'default',
     selectable: true,
     group: ScaleType.Linear,
-    domain: ['#054f86', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+    domain: ['#054f86', '#e48b25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
   };
 
   data: any[] = [{
-    name: '',
+    name: 'current',
     series: []
   },
     {
-      name: '',
+      name: 'previous',
       series: []
     }];
 

@@ -2,11 +2,12 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   font-family: sans-serif;
+  background-color: #2a2a2a;
 }
 
 header {
   border-radius: 1rem;
-  background-color: #eeeeee;
+  background-color: #757575;
   padding: 1em;
   margin: 0.5em;
   display: grid;
@@ -56,6 +57,7 @@ header {
   place-items: center;
   border-radius: 1rem;
   overflow: visible;
+  background-color: #757575;
 }
 
 app-temperature-chart {
@@ -67,20 +69,20 @@ app-temperature-chart {
 
 .pink {
   //background-color: pink;
-  background-color: #f0f0f0;
+  //background-color: #f0f0f0;
 }
 
 .purple {
   //background-color: mediumpurple;
-  background-color: #f0f0f0;
+  //background-color: #f0f0f0;
 }
 
 .blue {
   //background-color: lightblue;
-  background-color: #f0f0f0;
+  //background-color: #f0f0f0;
 }
 
 .green {
   //background-color: lightgreen;
-  background-color: #f0f0f0;
+  //background-color: #f0f0f0;
 }
