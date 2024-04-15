@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,16 @@ export class TemperatureService {
 
   getTemperatures(hours: number, groupSize: number): Promise<any[]> {
     return this.http.get("/lastHours/" + hours + "/" + groupSize).toPromise()
+      .then(data => this.transform(data))
+  }
+
+  getTemperaturesSince(hours: number, since: Date, groupSize: number): Promise<any[]> {
+    const body = {
+      hours: hours,
+      since: since,
+      groupSize: groupSize
+    };
+    return this.http.post("/lastHoursSince", body).toPromise()
       .then(data => this.transform(data))
   }
 

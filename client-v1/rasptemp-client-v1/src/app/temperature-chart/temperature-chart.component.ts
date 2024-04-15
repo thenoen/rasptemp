@@ -11,7 +11,7 @@ import {curveCatmullRom} from 'd3-shape';
 })
 export class TemperatureChartComponent {
 
-  @ViewChild("chartContainer")
+  @ViewChild('chartContainer')
   private chartContainer?: ElementRef<HTMLElement>;
 
   @Input()
@@ -35,10 +35,10 @@ export class TemperatureChartComponent {
   timeline: boolean = false;
   rangeBottom: number = -100;
   rangeTop: number = 100;
-  curve: any = curveCatmullRom.alpha(0.5)
+  curve: any = curveCatmullRom.alpha(0.5);
 
   colorScheme: Color = {
-    name: "default",
+    name: 'default',
     selectable: true,
     group: ScaleType.Linear,
     domain: ['#054f86', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
@@ -47,7 +47,11 @@ export class TemperatureChartComponent {
   data: any[] = [{
     name: '',
     series: []
-  }];
+  },
+    {
+      name: '',
+      series: []
+    }];
 
   constructor(chartContainer: ElementRef,
               private eventService: EventService,
@@ -58,13 +62,29 @@ export class TemperatureChartComponent {
         temperatureService.getTemperatures(this.hoursRange, this.groupSize)
           .then(data => this.data[0].series = data)
           .then(() => this.data = [...this.data])
-          .then(() => this.findMinMax())
-          .catch(error => console.log("error: " + error));
-        // console.log(this.data);
-        // this.findMinMax();
+          // .then(() => this.findMinMax())
+          .then(() => {
+              const since = new Date();
+              since.setFullYear(since.getFullYear() - 1);
+              temperatureService.getTemperaturesSince(this.hoursRange, since, this.groupSize)
+                .then(data => this.data[1].series = data)
+                .then(() => this.data = [...this.data])
+                .then(() => this.findMinMax())
+                .catch(error => console.log('error: ' + error));
+            }
+          )
+          .catch(error => console.log('error: ' + error));
+        this.onResize(undefined);
+
+        // temperatureService.getTemperatures(this.hoursRange + 100, this.groupSize)
+        //   .then(data => this.data[1].series = data)
+        //   .then(() => this.data = [...this.data])
+        // .then(() => this.findMinMax())
+        // .catch(error => console.log('error: ' + error));
+
         this.onResize(undefined);
       },
-      error: (refresh: Error) => console.log("error: " + refresh),
+      error: (refresh: Error) => console.log('error: ' + refresh),
       complete: () => subscription.unsubscribe()
     });
   }
@@ -81,6 +101,12 @@ export class TemperatureChartComponent {
         min = d.value;
       }
     });
+    this.data[1].series.forEach((d: any) => {
+      // console.log(d.value);
+      if (d.value < min) {
+        min = d.value;
+      }
+    });
 
     let max: number = Number.MIN_VALUE;
     this.data[0].series.forEach((d: any) => {
@@ -89,18 +115,24 @@ export class TemperatureChartComponent {
         max = d.value;
       }
     });
+    this.data[1].series.forEach((d: any) => {
+      // console.log(d.value);
+      if (d.value > max) {
+        max = d.value;
+      }
+    });
 
     let diff = max - min;
     if (diff < this.minimalRange) {
-      max += (this.minimalRange-diff)/2;
-      min -= (this.minimalRange-diff)/2;
+      max += (this.minimalRange - diff) / 2;
+      min -= (this.minimalRange - diff) / 2;
     }
-    this.rangeBottom = min;
-    this.rangeTop = max;
+    this.rangeBottom = min-1;
+    this.rangeTop = max+1;
   }
 
   ngOnInit() {
-    this.xAxisLabel = `Last ${ this.hoursRange } hours`;
+    this.xAxisLabel = `Last ${this.hoursRange} hours`;
   }
 
   ngAfterContentInit() {
@@ -109,12 +141,12 @@ export class TemperatureChartComponent {
 
   onResize(data: any) {
     if (this.chartContainer != undefined) {
-      console.log(this.chartContainer.nativeElement.clientWidth + " / " + this.chartContainer.nativeElement.clientWidth * (9 / 16));
+      // console.log(this.chartContainer.nativeElement.clientWidth + " / " + this.chartContainer.nativeElement.clientWidth * (9 / 16));
       this.view = [this.chartContainer.nativeElement.clientWidth, this.chartContainer.nativeElement.clientWidth * (9 / 16)];
       // this.view = [this.chartContainer.nativeElement.clientWidth, this.chartContainer.nativeElement.clientHeight];
       // this.view = [this.chartContainer.nativeElement.clientWidth, this.chartContainer.nativeElement.clientWidth * 0.5];
     } else {
-      console.log("chartContainer undefined");
+      console.log('chartContainer undefined');
     }
   }
 

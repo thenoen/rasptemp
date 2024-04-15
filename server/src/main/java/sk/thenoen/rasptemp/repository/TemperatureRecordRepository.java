@@ -13,6 +13,8 @@ public interface TemperatureRecordRepository extends JpaRepository<TemperatureRe
 
 	List<TemperatureRecord> findAllByDateMeasuredAfter(Date oldestDate);
 
+	List<TemperatureRecord> findAllByDateMeasuredAfterAndAndDateMeasuredBefore(Date oldestDate, Date newestDate);
+
 //	TemperatureRecord findFirstByOrderByLastnameAsc();
 	TemperatureRecord findFirstByOrderByDateMeasuredDesc();
 
