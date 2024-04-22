@@ -11,6 +11,9 @@ import {curveCatmullRom} from 'd3-shape';
 })
 export class TemperatureChartComponent {
 
+  private readonly CURRENT_PERIOD : number = 0;
+  private readonly PREVIOUS_PERIOD : number = 1;
+
   @ViewChild('chartContainer')
   private chartContainer?: ElementRef<HTMLElement>;
 
@@ -41,7 +44,7 @@ export class TemperatureChartComponent {
     name: 'default',
     selectable: true,
     group: ScaleType.Linear,
-    domain: ['#054f86', '#e48b25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+    domain: ['#e89b41', '#18537e']
   };
 
   data: any[] = [{
@@ -60,14 +63,14 @@ export class TemperatureChartComponent {
     let subscription = eventService.onRefresh({
       next: (refreshEvent) => {
         temperatureService.getTemperatures(this.hoursRange, this.groupSize)
-          .then(data => this.data[0].series = data)
+          .then(data => this.data[this.PREVIOUS_PERIOD].series = data)
           .then(() => this.data = [...this.data])
           // .then(() => this.findMinMax())
           .then(() => {
               const since = new Date();
               since.setFullYear(since.getFullYear() - 1);
               temperatureService.getTemperaturesSince(this.hoursRange, since, this.groupSize)
-                .then(data => this.data[1].series = data)
+                .then(data => this.data[this.CURRENT_PERIOD].series = data)
                 .then(() => this.data = [...this.data])
                 .then(() => this.findMinMax())
                 .catch(error => console.log('error: ' + error));
@@ -77,7 +80,7 @@ export class TemperatureChartComponent {
         this.onResize(undefined);
 
         // temperatureService.getTemperatures(this.hoursRange + 100, this.groupSize)
-        //   .then(data => this.data[1].series = data)
+        //   .then(data => this.data[this.CURRENT_PERIOD].series = data)
         //   .then(() => this.data = [...this.data])
         // .then(() => this.findMinMax())
         // .catch(error => console.log('error: ' + error));
@@ -93,15 +96,15 @@ export class TemperatureChartComponent {
 
   private findMinMax(): void {
     // console.log("data:");
-    // console.log(this.data[0].series);
+    // console.log(this.data[this.PREVIOUS_PERIOD].series);
     let min: number = Number.MAX_VALUE;
-    this.data[0].series.forEach((d: any) => {
+    this.data[this.PREVIOUS_PERIOD].series.forEach((d: any) => {
       // console.log(d.value);
       if (d.value < min) {
         min = d.value;
       }
     });
-    this.data[1].series.forEach((d: any) => {
+    this.data[this.CURRENT_PERIOD].series.forEach((d: any) => {
       // console.log(d.value);
       if (d.value < min) {
         min = d.value;
@@ -109,13 +112,13 @@ export class TemperatureChartComponent {
     });
 
     let max: number = Number.MIN_VALUE;
-    this.data[0].series.forEach((d: any) => {
+    this.data[this.PREVIOUS_PERIOD].series.forEach((d: any) => {
       // console.log(d.value);
       if (d.value > max) {
         max = d.value;
       }
     });
-    this.data[1].series.forEach((d: any) => {
+    this.data[this.CURRENT_PERIOD].series.forEach((d: any) => {
       // console.log(d.value);
       if (d.value > max) {
         max = d.value;
