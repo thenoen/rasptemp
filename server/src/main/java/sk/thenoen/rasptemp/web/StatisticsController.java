@@ -1,5 +1,6 @@
 package sk.thenoen.rasptemp.web;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class StatisticsController {
+
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(StatisticsController.class);
 
 	public static final int MAX_MEASUREMENTS_FOR_DISPLAY = 100;
 	public static final MathContext MATH_CONTEXT = new MathContext(4, RoundingMode.HALF_UP);
@@ -68,6 +71,9 @@ public class StatisticsController {
 
 		LocalDateTime now = LocalDateTime.now();
 		Date oldestDate = convertToDate(now.minusHours(hours));
+		logger.info("now: {}", now);
+		logger.info("oldestDate: {}", oldestDate);
+
 		List<TemperatureRecord> measuredAfter = temperatureRecordRepository.findAllByDateMeasuredAfter(oldestDate);
 
 		if (measuredAfter.size() > MAX_MEASUREMENTS_FOR_DISPLAY) {
