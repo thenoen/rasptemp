@@ -70,11 +70,14 @@ public class StatisticsController {
 														   @PathVariable("groupSize") int groupSize) {
 
 		LocalDateTime now = LocalDateTime.now();
-		Date oldestDate = convertToDate(now.minusHours(hours));
+		Date oldestDate = convertToDate(now.minusHours(hours), ZoneId.systemDefault());
 		logger.info("now: {}", now);
 		logger.info("oldestDate: {}", oldestDate);
 
 		List<TemperatureRecord> measuredAfter = temperatureRecordRepository.findAllByDateMeasuredAfter(oldestDate);
+
+		logger.info("newest: {}", measuredAfter.get(measuredAfter.size() - 1).getDateMeasured());
+		logger.info("oldest: {}", measuredAfter.get(0).getDateMeasured());
 
 		if (measuredAfter.size() > MAX_MEASUREMENTS_FOR_DISPLAY) {
 			int mod = measuredAfter.size() % groupSize;
@@ -100,8 +103,10 @@ public class StatisticsController {
 
 		final LocalDateTime newestDateTime = dataSince.getSince();
 		final LocalDateTime oldestDateTime = newestDateTime.minusHours(dataSince.getHours());
-		final Date newestDate = convertToDate(newestDateTime);
-		final Date oldestDate = convertToDate(oldestDateTime);
+		final Date newestDate = convertToDate(newestDateTime, ZoneOffset.UTC);
+		final Date oldestDate = convertToDate(oldestDateTime, ZoneOffset.UTC);
+		logger.info("newestDate: {}", newestDate);
+		logger.info("oldestDate: {}", oldestDate);
 
 		List<TemperatureRecord> measuredAfter = temperatureRecordRepository.findAllByDateMeasuredAfterAndAndDateMeasuredBefore(oldestDate, newestDate);
 
@@ -129,7 +134,7 @@ public class StatisticsController {
 						   .forEach(temperatureRecord -> {
 							   final Date dateMeasured = temperatureRecord.getDateMeasured();
 							   final LocalDateTime newLocalDateTime = convertToLocalDateTime(dateMeasured).plusYears(plusYears);
-							   final Date newDateMeasured = convertToDate(newLocalDateTime);
+							   final Date newDateMeasured = convertToDate(newLocalDateTime, ZoneId.systemDefault());
 							   temperatureRecord.setDateMeasured(newDateMeasured);
 						   });
 	}
@@ -140,8 +145,8 @@ public class StatisticsController {
 							.toLocalDateTime();
 	}
 
-	public Date convertToDate(LocalDateTime dateToConvert) {
-		return java.util.Date.from(dateToConvert.atZone(ZoneOffset.UTC)
+	public Date convertToDate(LocalDateTime dateToConvert, ZoneId zone) {
+		return java.util.Date.from(dateToConvert.atZone(zone)
 												.toInstant());
 	}
 
